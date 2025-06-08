@@ -17,9 +17,9 @@ function App() {
       <main className="flex-grow">
         <Hero />
         <About />
+        <Learning />
         <Skills />
         <Projects />
-        <Learning />
         <Contact />
       </main>
       {/* <Footer /> */}

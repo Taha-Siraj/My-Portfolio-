@@ -8,7 +8,6 @@ const projectsData = [
     tech: ["Express.js", "React.js", "Tailwind CSS", "MongoDB"],
     liveLink: "https://product-post-allapi.vercel.app/",
     githubLink: "https://github.com/Taha-Siraj/product_post-allapi",
-    // imageSrc: "/path/to/your/crud-app-screenshot.jpg" // Add a screenshot
   },
   {
     title: "Interactive Animated Website",
