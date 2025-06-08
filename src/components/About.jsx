@@ -4,7 +4,7 @@ const About = () => {
   return (
     <section id="about" className="py-16 md:py-24 bg-gray-800">
        <h1 className="text-5xl font-black text-center mb-12 text-[#4C83CF]">About Me</h1>
-      <div className="container flex gap-y-6 flex-col md:flex-row justify-between gap-x-3 px-4  items-center ">
+      <div className="container flex gap-y-6 flex-col lg:flex-row justify-between  px-5 items-center ">
       <div className='relative h-[350px] w-[350px] '>
         <div className='absolute inset-0 morph-shape z-20 border-8 border-[#4984D0] '></div>
        <div className='relative  h-full w-full overflow-hidden  morph-shape     z-10'>
@@ -16,7 +16,7 @@ const About = () => {
         </div>
       </div>
 
-        <div className="text-lg md:w-[60%] text-gray-300 space-y-6">
+        <div className="text-lg lg:w-[65%] text-gray-300 space-y-6">
           <p>
             As a passionate and committed MERN Stack Developer, I specialize in building clean, responsive, and interactive web experiences. From HTML & CSS to React.js, Node.js, and MongoDB, I bring life to ideas with code — crafting real-world solutions with strong UI/UX foundations.
           </p>
