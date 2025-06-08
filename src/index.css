@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: 'Poppins', sans-serif;
+  @apply bg-gray-900 text-gray-100 antialiased;
+}
+*{
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+
+
+#nav , #icons{
+  backdrop-filter: blur(10px);
+  background-color: rgba(2, 8, 44, 0.3);
+}
+
+
+@keyframes morph {
+  0% {
+    border-top-left-radius: 40% 60%;
+    border-top-right-radius: 60% 40%;
+    border-bottom-right-radius: 40% 60%;
+    border-bottom-left-radius: 60% 40%;
+  }
+  50% {
+    border-top-left-radius: 60% 40%;
+    border-top-right-radius: 40% 60%;
+    border-bottom-right-radius: 60% 40%;
+    border-bottom-left-radius: 40% 60%;
+  }
+  100% {
+    border-top-left-radius: 40% 60%;
+    border-top-right-radius: 60% 40%;
+    border-bottom-right-radius: 40% 60%;
+    border-bottom-left-radius: 60% 40%;
+  }
+}
+
+.morph-shape {
+  animation: morph 2.5s ease-in-out infinite;
+}
