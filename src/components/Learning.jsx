@@ -50,7 +50,7 @@ const Learning = () => {
       className="py-20 md:py-28 bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 text-white overflow-x-hidden"
     >
       <div className="container mx-auto px-6 max-w-7xl">
-        <h1 className="text-5xl md:text-6xl font-extrabold uppercase text-center text-[#4C82CE] tracking-wide drop-shadow-lg">
+        <h1 className="text-4xl md:text-5xl font-extrabold uppercase text-center text-[#4C82CE] tracking-wide drop-shadow-lg">
           My Journey
         </h1>
         <hr className="border-[#8bbbff] border-t-4 mb-14 w-[120px] mx-auto mt-4 rounded-md" />
