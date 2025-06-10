@@ -1,5 +1,9 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import ProjectCard from './ProjectCard';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const projectsData = [
   {
@@ -40,17 +44,51 @@ const projectsData = [
   },
 ];
 
-
 const Projects = () => {
+  const sectionRef = useRef(null);
+  const cardsRef = useRef([]);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        cardsRef.current,
+        { opacity: 0, y: 50 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 1,
+          stagger: 0.2,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: 'top 70%',
+            toggleActions: 'play none none reverse',
+          },
+        }
+      );
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <section id="projects" className="py-16 md:py-24 bg-gray-800">
+    <section
+      id="projects"
+      ref={sectionRef}
+      className="py-20 md:py-28 bg-gray-800 overflow-hidden"
+    >
       <div className="container mx-auto px-6">
-         <h1 className="text-4xl font-extrabold uppercase text-center text-[#4C82CE]">
-         Featured Projects</h1>
-        <hr className="border-[#8bbbff] border-t-4 mb-12 w-[100px] mx-auto mt-2" />
+        <h1 className="text-4xl md:text-5xl font-extrabold uppercase text-center text-[#4C82CE] mb-4 tracking-wide">
+          Featured Projects
+        </h1>
+        <hr className="border-[#8bbbff] border-t-4 mb-14 w-[120px] mx-auto rounded-md" />
         <div className="grid md:grid-cols-2 gap-10">
           {projectsData.map((project, index) => (
-            <ProjectCard key={index} {...project} />
+            <ProjectCard
+              key={index}
+              {...project}
+              ref={(el) => (cardsRef.current[index] = el)}
+            />
           ))}
         </div>
       </div>
