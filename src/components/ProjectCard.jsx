@@ -2,7 +2,7 @@ import React from 'react';
 import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa';
 
 const ProjectCard = ({ title, description, tech, liveLink, githubLink, imageSrc }) => {
-  // GSAP: Add hover animations here
+ 
   return (
     <div className="bg-gray-800 rounded-lg shadow-xl overflow-hidden transform hover:scale-105 transition-transform duration-300 flex flex-col">
       {imageSrc && <img src={imageSrc} alt={title} className="w-full h-48 object-cover"/>}

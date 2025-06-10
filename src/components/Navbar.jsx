@@ -9,7 +9,7 @@ gsap.registerPlugin(ScrollTrigger);
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const navRef = useRef(null);
-  const linksRef = useRef([]); // Array of all nav links
+  const linksRef = useRef([]);
 
   const navLinks = [
     { href: 'home', label: 'Home' },
@@ -21,48 +21,47 @@ const Navbar = () => {
   ];
 
   useEffect(() => {
-    // Timeline start
     const tl = gsap.timeline({
+      defaults: {
+        duration: 0.6,
+        ease: 'power3.out',
+      },
       scrollTrigger: {
         trigger: navRef.current,
         start: 'top top',
-        
-        toggleActions: 'play none none none',
+        end: 'bottom top',
+        scrub: false,
+        toggleActions: 'play none none reverse',
       },
     });
 
-    // Navbar slide from top
     tl.from(navRef.current, {
-      y: -100,
-      duration: 0.8,
+      y: -80,
       opacity: 0,
-      stagger: 0.5,
-      ease: 'power3.out',
-    });
-
-    // Staggered nav links animation
-    tl.from(
+    }).from(
       linksRef.current,
       {
         opacity: 0,
         y: -20,
-        stagger: 0.5, // <- Yeh hai hero: delay between each nav link
-        duration: 0.6,
-        ease: 'power2.out',
+        stagger: 0.1,
       },
-      '-=0.4' // overlap a little with previous animation
+      '-=0.4'
     );
+
+    return () => {
+      tl.kill();
+    };
   }, []);
 
   return (
     <nav
       id="nav"
       ref={navRef}
-      className="h-[75px] sticky top-0 z-50 shadow-lg flex justify-between items-center px-16 bg-[#02082c4d] backdrop-blur-md"
+      className="h-[75px] sticky top-0 z-50 shadow-lg flex justify-between items-center px-6 md:px-16 bg-[#02082c4d] backdrop-blur-md"
     >
       <div>
-        <h1 className="text-4xl font-extrabold text-white">
-          Taha<span className="text-[#67E8F9] text-6xl">.</span>
+        <h1 className="text-3xl md:text-4xl font-extrabold text-gray-200">
+          Taha<span className="text-[#67E8F9] text-5xl md:text-6xl">.</span>
         </h1>
       </div>
 
@@ -74,8 +73,8 @@ const Navbar = () => {
             smooth={true}
             duration={500}
             offset={-70}
-            className="cursor-pointer text-[17px] font-semibold hover:text-[#06B6D4] mx-5 text-[#F3F4F6]"
-            ref={(el) => (linksRef.current[index] = el)} // Set ref for each nav link
+            className="cursor-pointer text-[16px] md:text-[17px] font-semibold hover:text-[#06B6D4] mx-3 md:mx-5 text-gray-200"
+            ref={(el) => (linksRef.current[index] = el)}
           >
             {link.label}
           </ScrollLink>
