@@ -38,7 +38,7 @@ const projectsData = [
     description:
       "A responsive Facebook clone with modern UI elements. Built using React.js and Tailwind CSS, this project includes sign-up, login, and feed-style layout inspired by real Facebook design.",
     tech: ["React.js", "Tailwind CSS"],
-    liveLink: "https://facebookclone-bsaf8z6dv-taha-sirajs-projects.vercel.app/",
+    liveLink: "https://facebook-clone-git-main-taha-sirajs-projects.vercel.app/",
     githubLink: "https://github.com/Taha-Siraj/Facebook-Clone",
     imageSrc: "./src/assets/facebook.png",
   },

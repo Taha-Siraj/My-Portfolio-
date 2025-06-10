@@ -60,7 +60,7 @@ const About = () => {
           <div className="absolute inset-0 morph-shape z-20 border-8 border-[#4984D0] rounded-lg"></div>
           <div className="relative h-full w-full overflow-hidden morph-shape z-10 rounded-lg">
             <img
-              src="./src/assets/Linkdin-profile (2).webp"
+              src="Linkdin-profile (2).webp"
               alt="Profile"
               className="h-full w-full object-cover rounded-lg"
               loading="lazy"

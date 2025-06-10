@@ -26,13 +26,7 @@ const Navbar = () => {
         duration: 0.6,
         ease: 'power3.out',
       },
-      scrollTrigger: {
-        trigger: navRef.current,
-        start: 'top top',
-        end: 'bottom top',
-        scrub: false,
-        toggleActions: 'play none none reverse',
-      },
+
     });
 
     tl.from(navRef.current, {
