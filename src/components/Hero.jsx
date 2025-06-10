@@ -15,6 +15,16 @@ const Hero = () => {
   const buttonRef = useRef(null);
   const iconsRef = useRef(null);
 
+  const handleDownload = (e) => {
+    e.preventDefault();
+    const link = document.createElement('a');
+    link.href = '/cvdownload.pdf';
+    link.download = 'Taha_Siraj_Resume.pdf'; 
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   useEffect(() => {
     const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
     tl.fromTo(
@@ -47,12 +57,10 @@ const Hero = () => {
           trigger: iconsRef.current,
           start: 'top 80%',
           toggleActions: 'play none none reverse',
-          // scrub: true, // Optional: smooth scrubbing
         },
       }
     );
 
-    // Cleanup ScrollTrigger instances on unmount
     return () => {
       ScrollTrigger.getAll().forEach((st) => st.kill());
     };
@@ -100,13 +108,13 @@ const Hero = () => {
             View My Work
           </ScrollLink>
 
-          <a
-            href="./src/assets/download.pdf"
-            download
+          <button
+            type="button"
+            onClick={handleDownload}
             className="bg-[#06B6D4] text-gray-700 font-bold py-3 px-8 rounded-full text-lg flex items-center justify-center gap-3 hover:bg-transparent hover:border-2 hover:text-[#dadada] border-cyan-400 transition-transform duration-300 ease-in-out hover:scale-105"
           >
             Download Resume <FaDownload className="text-xl" />
-          </a>
+          </button>
         </div>
 
         <div

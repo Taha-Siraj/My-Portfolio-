@@ -67,7 +67,7 @@ const Learning = () => {
             </h2>
 
             <div className="space-y-3 border-l-4 border-[#67E8F9] pl-6">
-              <h3 className="text-2xl font-semibold text-white drop-shadow-md">
+              <h3 className="text-xl font-semibold text-white drop-shadow-md">
                 Intermediate (Science General)
               </h3>
               <p className="text-lg text-[#a3bffa] italic">
@@ -76,7 +76,7 @@ const Learning = () => {
             </div>
 
             <div className="space-y-3 border-l-4 border-[#67E8F9] pl-6">
-              <h3 className="text-2xl font-semibold text-white drop-shadow-md">
+              <h3 className="text-xl font-semibold text-white drop-shadow-md">
                 Matriculation (Science)
               </h3>
               <p className="text-lg text-[#a3bffa] italic">
@@ -96,7 +96,7 @@ const Learning = () => {
             </h2>
 
             <div className="space-y-3 border-l-4 border-[#67E8F9] pl-6">
-              <h3 className="text-2xl font-semibold text-white drop-shadow-md">
+              <h3 className="text-xl font-semibold text-white drop-shadow-md">
                 MERN Stack Development
               </h3>
               <p className="text-lg text-[#a3bffa] italic">
@@ -105,7 +105,7 @@ const Learning = () => {
             </div>
 
             <div className="space-y-3 border-l-4 border-[#67E8F9] pl-6">
-              <h3 className="text-2xl font-semibold text-white drop-shadow-md">
+              <h3 className="text-xl font-semibold text-white drop-shadow-md">
                 Digital Marketing & Freelancing
               </h3>
               <p className="text-lg text-[#a3bffa] italic">

@@ -57,11 +57,11 @@ const Projects = () => {
           opacity: 1,
           y: 0,
           duration: 1,
-          stagger: 0.2,
+          stagger: 0.3,
           ease: 'power3.out',
           scrollTrigger: {
             trigger: sectionRef.current,
-            start: 'top 70%',
+            start: 'top 75%',
             toggleActions: 'play none none reverse',
           },
         }
@@ -77,11 +77,11 @@ const Projects = () => {
       ref={sectionRef}
       className="py-20 md:py-28 bg-gray-800 overflow-hidden"
     >
-      <div className="container mx-auto px-6">
-        <h1 className="text-4xl md:text-5xl font-extrabold uppercase text-center text-[#4C82CE] mb-4 tracking-wide">
+      <div className="container mx-auto px-6 max-w-7xl">
+        <h1 className="text-4xl md:text-5xl font-extrabold uppercase text-center text-[#4C82CE] mb-6 tracking-wide">
           Featured Projects
         </h1>
-        <hr className="border-[#8bbbff] border-t-4 mb-14 w-[120px] mx-auto rounded-md" />
+        <hr className="border-[#8bbbff] border-t-4 mb-16 w-[120px] mx-auto rounded-md" />
         <div className="grid md:grid-cols-2 gap-10">
           {projectsData.map((project, index) => (
             <ProjectCard

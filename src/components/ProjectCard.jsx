@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa';
 
-const ProjectCard = ({ title, description, tech, liveLink, githubLink, imageSrc }) => {
+const ProjectCard = forwardRef(({ title, description, tech, liveLink, githubLink, imageSrc }, ref) => {
   return (
-    <div className="bg-gray-800 rounded-xl shadow-2xl overflow-hidden transform transition-transform duration-300 hover:scale-105 hover:shadow-teal-500/20 flex flex-col h-full">
+    <div
+      ref={ref}
+      className="bg-gray-800 rounded-xl shadow-2xl overflow-hidden transform transition-transform duration-300 hover:scale-105 hover:shadow-teal-500/20 flex flex-col h-full"
+    >
       {imageSrc && (
         <img
           src={imageSrc}
@@ -51,6 +54,6 @@ const ProjectCard = ({ title, description, tech, liveLink, githubLink, imageSrc 
       </div>
     </div>
   );
-};
+});
 
 export default ProjectCard;
