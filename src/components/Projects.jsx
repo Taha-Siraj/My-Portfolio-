@@ -13,7 +13,7 @@ const projectsData = [
     tech: ["Express.js", "React.js", "Tailwind CSS", "MongoDB"],
     liveLink: "https://product-post-allapi.vercel.app/",
     githubLink: "https://github.com/Taha-Siraj/product_post-allapi",
-    imageSrc: "./src/assets/crud.png",
+    imageSrc: "crud.png",
   },
   {
     title: "Interactive Animated Website",
@@ -22,7 +22,7 @@ const projectsData = [
     tech: ["React.js", "GSAP"],
     liveLink: "https://animated-webistes.netlify.app/",
     githubLink: "https://github.com/Taha-Siraj/Sidcup-Animated-websites-",
-    imageSrc: "/src/assets/animated.png",
+    imageSrc: "animated.png",
   },
   {
     title: "Real-Time Weather App",
@@ -31,7 +31,7 @@ const projectsData = [
     tech: ["React.js", "Tailwind CSS", "Axios", "Node.js", "Express.js"],
     liveLink: "https://weather-ui-gudb.vercel.app/",
     githubLink: "https://github.com/Taha-Siraj/Sidcup-Animated-websites-",
-    imageSrc: "./src/assets/Weatherapp.png",
+    imageSrc: "Weatherapp.png",
   },
   {
     title: "Facebook Clone",
@@ -40,7 +40,7 @@ const projectsData = [
     tech: ["React.js", "Tailwind CSS"],
     liveLink: "https://facebook-clone-git-main-taha-sirajs-projects.vercel.app/",
     githubLink: "https://github.com/Taha-Siraj/Facebook-Clone",
-    imageSrc: "./src/assets/facebook.png",
+    imageSrc: "facebook.png",
   },
 ];
 
