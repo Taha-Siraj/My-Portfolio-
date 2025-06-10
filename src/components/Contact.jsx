@@ -8,11 +8,11 @@ import { CiLocationOn } from "react-icons/ci";
 const Contact = () => {
   return (
     <section id="contact" className="py-16 md:py-24 bg-[#334155]">
-      <div className="container mx-auto px-32 text-center">
+      <div className="container mx-auto px-6 lg:px-32 text-center">
         <h1 className="text-5xl font-black text-center  text-[#4C83CF]">Contact Me</h1>
         <hr className="border-[#8bbbff] border-t-4 mb-12 w-[120px] mx-auto mt-2" />
 
-        <div className='bg-[#1E293B] flex justify-between  items-start py-10 h-[560px] rounded-xl border border-[#475569] w-full'>
+        <div className='bg-[#1E293B] flex flex-col md:flex-row justify-between  items-start md:py-10 min:h-[560px] rounded-xl border border-[#475569] w-[100%]'>
          <div className='flex justify-start items-start flex-col gap-y-6 py-10 px-16 w-full'>
            <div className='flex justify-center items-start flex-col gap-y-6'>
              <h1 className="text-3xl font-black text-center  text-[#4C83CF]">Let's Connect!</h1>

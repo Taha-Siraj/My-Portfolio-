@@ -48,22 +48,24 @@ const Hero = () => {
           Building modern, responsive, and full-stack web applications. Passionate about learning and implementing new technologies to create amazing digital experiences.
         </p>
         <div className=' md:flex block  gap-y-5  justify-center items-center  gap-x-4'>
-          <ScrollLink
+          <ScrollLink 
           to='projects'
           ref={buttonRef}
           smooth={true}
           duration={500}
           offset={-70}  
-          className="bg-[#06B6D4] text-white font-bold py-3 px-8 rounded-lg text-lg transition duration-300 ease-in-out transform hover:scale-105">
+          className="bg-[#06B6D4] cursor-pointer flex justify-between gap-x-4 hover:bg-transparent hover:border-2 hover:text-[#dadada] border-cyan-400 text-gray-700 font-bold py-3 px-8 rounded-lg hover:scale-105 text-lg">
           View My Work
         </ScrollLink>
-          <a
+         <button ref={buttonRef} className="bg-[#06B6D4] cursor-pointer flex justify-between gap-x-4 hover:bg-transparent hover:border-2 hover:text-[#dadada] border-cyan-400 text-gray-700 font-bold py-3 px-8 rounded-lg hover:scale-105 text-lg" >
+           <a
           href="./src/assets/download.pdf"
-          ref={buttonRef}
-          className="bg-[#06B6D4] flex justify-between gap-x-4 text-white font-bold py-3 px-8 rounded-lg text-lg transition duration-300 ease-in-out transform hover:scale-105 ">
+          
+          >
           Download Resume 
-          <FaDownload className="text-3xl" />
         </a>
+         <FaDownload className="text-3xl" />
+         </button>
         </div>
        <div
   id="icons"
