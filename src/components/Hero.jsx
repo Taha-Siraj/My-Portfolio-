@@ -18,8 +18,8 @@ const Hero = () => {
   const handleDownload = (e) => {
     e.preventDefault();
     const link = document.createElement('a');
-    link.href = '/cvdownload.pdf';
-    link.download = 'Taha_Siraj_Resume.pdf'; 
+    link.href = '/TahaSiraj-cv.pdf';
+    link.download = 'TahaSiraj-cv.pdf'; 
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
