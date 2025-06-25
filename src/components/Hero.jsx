@@ -74,7 +74,7 @@ const Hero = () => {
       className="bg-[#0F172A] text-white py-20 md:py-32 min-h-screen flex items-center overflow-x-hidden"
     >
       <div className="container px-6 mx-auto flex flex-col justify-center items-center text-center gap-y-6 max-w-5xl">
-       <div className="text-4xl sm:text-5xl md:text-7xl font-extrabold mb-6 bg-gradient-to-r from-[#8D46AE] via-[#8D46AE] to-[#4A84D0] bg-clip-text text-transparent">
+       <div ref={titleRef} className="text-4xl sm:text-5xl md:text-7xl font-extrabold mb-6 bg-gradient-to-r from-[#8D46AE] via-[#8D46AE] to-[#4A84D0] bg-clip-text text-transparent">
         <Typewriter
           words={["Hi, I'm Taha Siraj"]}
           loop={true}
@@ -84,7 +84,7 @@ const Hero = () => {
           delaySpeed={1000}
         />
       </div>
-        <div className="text-xl sm:text-2xl md:text-4xl font-poppins max-w-3xl bg-gradient-to-r from-[#8D46AE] font-semibold via-[#3B82F6] to-[#4A84D0] bg-clip-text text-transparent">
+        <div ref={subtitleRef} className="text-xl sm:text-2xl md:text-4xl font-poppins max-w-3xl bg-gradient-to-r from-[#8D46AE] font-semibold via-[#3B82F6] to-[#4A84D0] bg-clip-text text-transparent">
           <Typewriter
             words={[ 
               "FULL Stack Web Developer",
