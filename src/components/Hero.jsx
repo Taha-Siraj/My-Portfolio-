@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { FaDownload, FaGithub, FaLinkedin } from 'react-icons/fa';
 import { MdEmail } from 'react-icons/md';
 import { Link as ScrollLink } from 'react-scroll';
+import { Typewriter } from 'react-simple-typewriter'
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -73,20 +74,30 @@ const Hero = () => {
       className="bg-[#0F172A] text-white py-20 md:py-32 min-h-screen flex items-center overflow-x-hidden"
     >
       <div className="container px-6 mx-auto flex flex-col justify-center items-center text-center gap-y-6 max-w-5xl">
-        <h1
-          ref={titleRef}
-          className="text-4xl sm:text-5xl md:text-7xl font-extrabold mb-6 bg-gradient-to-r from-[#8D46AE] via-[#8D46AE] to-[#4A84D0] bg-clip-text text-transparent"
-        >
-          Hi, I'm Taha Siraj
-        </h1>
-
-        <p
-          id="text"
-          className="text-xl sm:text-2xl md:text-4xl font-poppins max-w-3xl bg-gradient-to-r from-[#8D46AE] via-[#3B82F6] to-[#4A84D0] bg-clip-text text-transparent"
-        >
-          Full Stack Web Developer
-        </p>
-
+       <div className="text-4xl sm:text-5xl md:text-7xl font-extrabold mb-6 bg-gradient-to-r from-[#8D46AE] via-[#8D46AE] to-[#4A84D0] bg-clip-text text-transparent">
+        <Typewriter
+          words={["Hi, I'm Taha Siraj"]}
+          loop={true}
+          cursor
+          typeSpeed={70}
+          deleteSpeed={50}
+          delaySpeed={1000}
+        />
+      </div>
+        <div className="text-xl sm:text-2xl md:text-4xl font-poppins max-w-3xl bg-gradient-to-r from-[#8D46AE] font-semibold via-[#3B82F6] to-[#4A84D0] bg-clip-text text-transparent">
+          <Typewriter
+            words={[ 
+              "MERN Stack Developer",
+              "Frontend with React & Next js",
+              "Backend with Node & ExpressJs",
+              "I Turn Ideas Into Web Apps"]}
+            loop={true}
+            cursor
+            typeSpeed={70}
+            deleteSpeed={50}
+            delaySpeed={1000}
+          />
+        </div>
         <p
           ref={subtitleRef}
           className="text-base sm:text-lg md:text-xl text-gray-400 max-w-3xl mx-auto font-poppins px-4"
