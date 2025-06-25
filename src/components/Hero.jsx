@@ -87,10 +87,11 @@ const Hero = () => {
         <div className="text-xl sm:text-2xl md:text-4xl font-poppins max-w-3xl bg-gradient-to-r from-[#8D46AE] font-semibold via-[#3B82F6] to-[#4A84D0] bg-clip-text text-transparent">
           <Typewriter
             words={[ 
-              "MERN Stack Developer",
-              "Frontend with React & Next js",
-              "Backend with Node & ExpressJs",
-              "I Turn Ideas Into Web Apps"]}
+              "FULL Stack Web Developer",
+              "Frontend with React & Next JS",
+              "Backend with Node & ExpressJS",
+              "Frontend ✨ + Backend 💻 = Me",
+              ]}
             loop={true}
             cursor
             typeSpeed={70}
