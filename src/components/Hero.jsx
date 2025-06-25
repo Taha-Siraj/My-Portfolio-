@@ -90,7 +90,7 @@ const Hero = () => {
               "FULL Stack Web Developer",
               "Frontend with React & Next JS",
               "Backend with Node & ExpressJS",
-              "Frontend ✨ + Backend 💻 = Me",
+            
               ]}
             loop={true}
             cursor
