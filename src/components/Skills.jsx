@@ -24,7 +24,6 @@ const skillsData = [
   { color: "#336791", name: "PostgreSQL", icon: SiPostgresql, level: 65 },
   { color: "#FFCA28", name: "Firebase", icon: FaFire, level: 80 },
   { color: "#88CE02", name: "GSAP", icon: FaBolt, level: 70 },
-  { color: "#0055FF", name: "Framer Motion", icon: FaTools, level: 70 },
   { color: "#26A69A", name: "Formik", icon: FaWpforms, level: 60 },
   { color: "#007ACC", name: "VS Code", icon: FaCode, level: 95 },
   { color: "#F05032", name: "Git", icon: FaGit, level: 80 },
