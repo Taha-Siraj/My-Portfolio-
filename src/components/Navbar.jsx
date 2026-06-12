@@ -1,108 +1,53 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { FiMenu, FiX } from 'react-icons/fi';
 import { Link as ScrollLink } from 'react-scroll';
+import { Home, User, Cpu, Folder, Mail, Briefcase, GraduationCap, Layers } from 'lucide-react';
 import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-gsap.registerPlugin(ScrollTrigger);
 
 const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
   const navRef = useRef(null);
-  const linksRef = useRef([]);
 
   const navLinks = [
-    { href: 'home', label: 'Home' },
-    { href: 'about', label: 'About' },
-    { href: 'skills', label: 'Skills' },
-    { href: 'experience', label: 'Experience' },
-    { href: 'projects', label: 'Projects' },
-    { href: 'contact', label: 'Contact' },
+    { href: 'home', label: 'Home', icon: Home },
+    { href: 'experience', label: 'Experience', icon: Briefcase },
+    { href: 'about', label: 'About', icon: User },
+    { href: 'skills', label: 'Skills', icon: Cpu },
+    { href: 'services', label: 'Services', icon: Layers },
+    { href: 'projects', label: 'Projects', icon: Folder },
+    { href: 'education', label: 'Education', icon: GraduationCap },
+    { href: 'contact', label: 'Contact', icon: Mail },
   ];
 
   useEffect(() => {
-    const tl = gsap.timeline({
-      defaults: {
-        duration: 0.6,
-        ease: 'power3.out',
-      },
-
-    });
-
-    tl.from(navRef.current, {
-      y: -80,
-      opacity: 0,
-    }).from(
-      linksRef.current,
-      {
-        opacity: 0,
-        y: -20,
-        stagger: 0.1,
-      },
-      '-=0.4'
+    gsap.fromTo(
+      navRef.current,
+      { y: -100, xPercent: -50, opacity: 0 },
+      { y: 0, xPercent: -50, opacity: 1, duration: 1, ease: 'power3.out', delay: 0.2 }
     );
-
-    return () => {
-      tl.kill();
-    };
   }, []);
 
   return (
     <nav
-      id="nav"
       ref={navRef}
-      className="h-[75px] sticky top-0 z-50 shadow-lg flex justify-between items-center px-6 md:px-16 bg-[#02082c4d] backdrop-blur-md"
+      className="fixed top-6 left-1/2 z-50 capsule-nav rounded-full px-4 py-2 sm:px-6 sm:py-2.5 flex items-center justify-center gap-x-1 sm:gap-x-2 transition-all duration-300 w-[92%] max-w-max"
     >
-      <div>
-        <h1 className="text-3xl md:text-4xl font-extrabold text-gray-200">
-          Taha<span className="text-[#67E8F9] text-5xl md:text-6xl">.</span>
-        </h1>
-      </div>
-
-      <div className="hidden md:flex">
-        {navLinks.map((link, index) => (
+      {navLinks.map((link, index) => {
+        const IconComponent = link.icon;
+        return (
           <ScrollLink
             key={index}
             to={link.href}
             smooth={true}
             duration={500}
             offset={-70}
-            className="cursor-pointer text-[16px] md:text-[17px] font-semibold hover:text-[#06B6D4] mx-3 md:mx-5 text-gray-200"
-            ref={(el) => (linksRef.current[index] = el)}
+            spy={true}
+            activeClass="text-[#10b981] bg-emerald-500/10 font-bold"
+            className="cursor-pointer flex items-center gap-x-2 text-[10px] sm:text-xs md:text-sm font-semibold text-gray-300 hover:text-white px-2 py-1 sm:px-3 sm:py-1.5 rounded-full transition-all duration-300"
           >
-            {link.label}
+            <IconComponent size={14} className="flex-shrink-0" />
+            <span className="hidden md:inline">{link.label}</span>
           </ScrollLink>
-        ))}
-      </div>
-
-      <div>
-        <button
-          className="md:hidden text-3xl text-[#F3F4F6] hover:text-[#06B6D4]"
-          onClick={() => setIsOpen(!isOpen)}
-        >
-          {isOpen ? <FiX /> : <FiMenu />}
-        </button>
-      </div>
-
-      {isOpen && (
-        <div className="absolute top-16 left-0 w-full bg-[#1F2937] text-white md:hidden z-50">
-          <div className="flex flex-col items-center py-4">
-            {navLinks.map((link, index) => (
-              <ScrollLink
-                key={index}
-                to={link.href}
-                smooth={true}
-                duration={200}
-                offset={-70}
-                onClick={() => setIsOpen(false)}
-                className="text-lg font-semibold hover:text-[#06B6D4] my-2 cursor-pointer"
-              >
-                {link.label}
-              </ScrollLink>
-            ))}
-          </div>
-        </div>
-      )}
+        );
+      })}
     </nav>
   );
 };
