@@ -1,130 +1,102 @@
-import React, { useEffect, useRef } from 'react';
-import {
-  FaJs, FaReact, FaBootstrap, FaGit, FaGithub, FaBolt, FaShopify, FaNodeJs
-} from "react-icons/fa";
-import {
-  SiTailwindcss, SiMui, SiPostgresql, SiVercel, SiNextdotjs, SiTypescript, SiMongodb, SiRedis, SiReactquery
-} from "react-icons/si";
+import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import SectionHeading from './SectionHeading';
+import Reveal from './Reveal';
+import { skills } from '../data/content';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const skillsData = [
-  { color: "#F7DF1E", name: "JavaScript (ES6+)", icon: FaJs, level: 90 },
-  { color: "#3178C6", name: "TypeScript", icon: SiTypescript, level: 85 },
-  { color: "#61DAFB", name: "React.js", icon: FaReact, level: 90 },
-  { color: "#000000", name: "Next.js", icon: SiNextdotjs, level: 85 },
-  { color: "#339933", name: "Node.js", icon: FaNodeJs, level: 85 },
-  { color: "#38BDF8", name: "Tailwind CSS", icon: SiTailwindcss, level: 95 },
-  { color: "#47A248", name: "MongoDB", icon: SiMongodb, level: 80 },
-  { color: "#336791", name: "PostgreSQL", icon: SiPostgresql, level: 75 },
-  { color: "#06B6D4", name: "GSAP", icon: FaBolt, level: 80 },
-  { color: "#2296F3", name: "React Query", icon: SiReactquery, level: 80 },
-  { color: "#DC382D", name: "Redis", icon: SiRedis, level: 60 },
-  { color: "#95BF47", name: "Shopify", icon: FaShopify, level: 75 },
-  { color: "#F05032", name: "Git", icon: FaGit, level: 85 },
-  { color: "#181717", name: "GitHub", icon: FaGithub, level: 85 },
-  { color: "#000000", name: "Vercel", icon: SiVercel, level: 85 },
-  { color: "#007FFF", name: "Material UI", icon: SiMui, level: 75 },
-];
-
-const Skills = () => {
-  const containerRef = useRef(null);
+function SkillCard({ skill, index }) {
+  const barRef = useRef(null);
+  const cardRef = useRef(null);
 
   useEffect(() => {
-    const skillBars = containerRef.current.querySelectorAll('.skill-bar');
-
-    skillBars.forEach((bar, index) => {
+    const ctx = gsap.context(() => {
+      gsap.from(cardRef.current, {
+        opacity: 0,
+        y: 36,
+        scale: 0.96,
+        duration: 0.7,
+        ease: 'power3.out',
+        delay: (index % 4) * 0.08,
+        scrollTrigger: {
+          trigger: cardRef.current,
+          start: 'top 90%',
+          toggleActions: 'play none none reverse',
+        },
+      });
       gsap.fromTo(
-        bar,
+        barRef.current,
         { width: '0%' },
         {
-          width: bar.dataset.level + '%',
-          duration: 1.5,
+          width: `${skill.level}%`,
+          duration: 1.4,
           ease: 'power3.out',
           scrollTrigger: {
-            trigger: bar,
-            start: 'top 85%',
+            trigger: cardRef.current,
+            start: 'top 88%',
             toggleActions: 'play none none reverse',
           },
-          delay: index * 0.05,
         }
       );
     });
-  }, []);
+    return () => ctx.revert();
+  }, [skill.level, index]);
 
+  const Icon = skill.icon;
   return (
-    <section 
-      id="skills" 
-      className="font-poppins py-24 bg-[#060b13] overflow-hidden border-t border-[#10b981]/10"
+    <div
+      ref={cardRef}
+      data-hover
+      className="glass group rounded-3xl p-5 transition-all duration-300 hover:-translate-y-1.5 hover:border-cyan-300/40 hover:shadow-[0_12px_44px_rgba(34,211,238,0.18)]"
     >
-      <div className="absolute inset-0 cyber-grid-static opacity-30 pointer-events-none"></div>
-
-      <div className="container mx-auto px-6 max-w-6xl z-10 relative">
-        
-        {/* Header */}
-        <div className="text-center mb-16">
-          <div className="text-xs font-mono tracking-[0.3em] text-[#10b981] uppercase mb-2">
-            [ Tech Stack Capabilities ]
-          </div>
-          <h2 className="text-3xl md:text-5xl font-orbitron font-black text-white tracking-widest text-glow-emerald uppercase">
-            Skills Inventory
-          </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-[#10b981] to-[#047857] mx-auto mt-4 rounded-full shadow-[0_0_8px_#10b981]"></div>
-        </div>
-
+      <div className="flex items-center gap-3.5">
         <div
-          ref={containerRef}
-          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
+          className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-white/5 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6"
         >
-          {skillsData.map(({ color, name, icon: Icon, level }, index) => (
-            <div
-              key={index}
-              className="flex flex-col gap-4 bg-slate-950/60 rounded-xl p-5 border border-slate-800 hover:border-[#10b981]/30 transition-all duration-300 hover:-translate-y-1 relative group shadow-md"
-              style={{
-                '--hover-glow': color
-              }}
-            >
-              {/* Subtle hover card indicator */}
-              <div 
-                className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-10 transition-opacity duration-300 pointer-events-none"
-                style={{
-                  background: `radial-gradient(circle at center, ${color} 0%, transparent 70%)`
-                }}
-              ></div>
+          <Icon size={24} style={{ color: skill.color }} />
+        </div>
+        <div className="min-w-0 flex-1">
+          <div className="truncate text-[15px] font-semibold text-white">
+            {skill.name}
+          </div>
+          <div className="font-mono2 text-xs text-white/40">{skill.level}%</div>
+        </div>
+      </div>
+      <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-white/10">
+        <div
+          ref={barRef}
+          className="h-full w-0 rounded-full bg-gradient-to-r from-cyan-400 via-violet-500 to-fuchsia-500"
+          style={{ boxShadow: '0 0 12px rgba(34,211,238,0.6)' }}
+        />
+      </div>
+    </div>
+  );
+}
 
-              <div className="flex items-center justify-between z-10">
-                <div className="flex items-center gap-3">
-                  <div 
-                    className="p-2.5 bg-slate-900 border border-slate-800 rounded-lg group-hover:scale-110 transition-transform duration-300"
-                    style={{ color: color }}
-                  >
-                    <Icon size={24} />
-                  </div>
-                  <p className="text-white text-sm font-orbitron font-bold tracking-wide">{name}</p>
-                </div>
-                <span className="text-xs text-gray-400 font-mono tracking-wider">{level}%</span>
-              </div>
-
-              {/* Glowing High Tech Segment Progress Bar */}
-              <div className="w-full bg-slate-900 h-2.5 rounded-full overflow-hidden border border-slate-800/80 p-[1px] z-10">
-                <div
-                  className="skill-bar h-full rounded-full"
-                  data-level={level}
-                  style={{ 
-                    width: '0%',
-                    background: `linear-gradient(to right, ${color}cc, ${color}ff)`,
-                    boxShadow: `0 0 8px ${color}80`
-                  }}
-                ></div>
-              </div>
-            </div>
+export default function Skills() {
+  return (
+    <section id="skills" data-palette="2" className="relative z-10 px-6 py-28 md:py-36">
+      <div className="mx-auto max-w-6xl">
+        <SectionHeading
+          eyebrow="Arsenal"
+          title="Skills & Tech"
+          desc="The weapons I wield to bend the web to my will."
+        />
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {skills.map((s, i) => (
+            <SkillCard key={s.name} skill={s} index={i} />
           ))}
         </div>
+        <Reveal className="mt-12 text-center">
+          <p className="font-mono2 text-sm text-white/40">
+            <span className="text-cyan-300">+</span> always learning — currently
+            deep-diving into <span className="text-fuchsia-300">GLSL shaders</span> &{' '}
+            <span className="text-fuchsia-300">advanced Three.js</span>
+          </p>
+        </Reveal>
       </div>
     </section>
   );
-};
-
-export default Skills;
+}

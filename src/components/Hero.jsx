@@ -1,179 +1,190 @@
-import React, { useEffect, useRef } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { FaGithub, FaLinkedin, FaTwitter, FaArrowRight } from 'react-icons/fa';
+import { useEffect, useRef } from 'react';
 import { Link as ScrollLink } from 'react-scroll';
+import { useTypewriter } from 'react-simple-typewriter';
+import { ArrowDown, FolderGit2, Send } from 'lucide-react';
+import gsap from 'gsap';
+import { profile, socials } from '../data/content';
 
-gsap.registerPlugin(ScrollTrigger);
-
-const bgProjects = [
-  'wakissha.png',
-  'crud.png',
-  'tvs-emerald.png',
-  'opencodeshare.png',
-  'facebook.png',
-  'animated.png'
-];
-
-const Hero = () => {
-  const heroRef = useRef(null);
+function Counter({ value, suffix, label }) {
+  const numRef = useRef(null);
+  const wrapRef = useRef(null);
 
   useEffect(() => {
+    const el = numRef.current;
+    const obj = { n: 0 };
     const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
-      tl.fromTo(
-        '.hero-animate-badge',
-        { opacity: 0, y: -20 },
-        { opacity: 1, y: 0, duration: 0.45, delay: 0.05 }
-      )
-      .fromTo(
-        '.hero-animate-title',
-        { opacity: 0, y: 25 },
-        { opacity: 1, y: 0, duration: 0.45 },
-        '-=0.35'
-      )
-      .fromTo(
-        '.hero-animate-role',
-        { opacity: 0, x: -25 },
-        { opacity: 1, x: 0, duration: 0.45 },
-        '-=0.35'
-      )
-      .fromTo(
-        '.hero-animate-desc',
-        { opacity: 0, y: 15 },
-        { opacity: 1, y: 0, duration: 0.45 },
-        '-=0.35'
-      )
-      .fromTo(
-        '.hero-animate-cta',
-        { opacity: 0, scale: 0.92 },
-        { opacity: 1, scale: 1, duration: 0.4, ease: 'back.out(1.5)' },
-        '-=0.3'
-      )
-      .fromTo(
-        '.hero-animate-socials a',
-        { opacity: 0, y: 12 },
-        { opacity: 1, y: 0, duration: 0.35, stagger: 0.06 },
-        '-=0.25'
-      );
-    }, heroRef);
-
+      gsap.to(obj, {
+        n: value,
+        duration: 2,
+        ease: 'power2.out',
+        scrollTrigger: { trigger: wrapRef.current, start: 'top 95%' },
+        onUpdate: () => {
+          el.textContent = Math.round(obj.n) + suffix;
+        },
+      });
+    });
     return () => ctx.revert();
+  }, [value, suffix]);
+
+  return (
+    <div ref={wrapRef} className="text-center">
+      <div
+        ref={numRef}
+        className="font-display text-3xl font-extrabold text-white md:text-4xl"
+      >
+        0{suffix}
+      </div>
+      <div className="font-mono2 mt-1 text-[11px] uppercase tracking-[0.2em] text-white/45">
+        {label}
+      </div>
+    </div>
+  );
+}
+
+export default function Hero() {
+  const rootRef = useRef(null);
+  const nameRef = useRef(null);
+  const [text] = useTypewriter({
+    words: profile.roles,
+    loop: true,
+    typeSpeed: 55,
+    deleteSpeed: 32,
+    delaySpeed: 1600,
+  });
+
+  useEffect(() => {
+    const run = () => {
+      const ctx = gsap.context(() => {
+        const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+        tl.from('.h-badge', { opacity: 0, y: -24, duration: 0.6 })
+          .from('.h-line', { opacity: 0, y: 70, duration: 0.9, stagger: 0.12 }, '-=0.3')
+          .from('.h-role', { opacity: 0, y: 24, duration: 0.6 }, '-=0.5')
+          .from('.h-desc', { opacity: 0, y: 24, duration: 0.6 }, '-=0.4')
+          .from('.h-cta', { opacity: 0, y: 24, duration: 0.6, stagger: 0.1 }, '-=0.4')
+          .from('.h-social', { opacity: 0, y: 18, duration: 0.5, stagger: 0.07 }, '-=0.4')
+          .from('.h-stats', { opacity: 0, y: 30, duration: 0.7 }, '-=0.3')
+          .from('.h-scroll', { opacity: 0, duration: 0.8 }, '-=0.3');
+      }, rootRef);
+      return () => ctx.revert();
+    };
+    let cleanup;
+    if (window.__siteReady) cleanup = run();
+    else {
+      const handler = () => {
+        cleanup = run();
+      };
+      window.addEventListener('site-ready', handler, { once: true });
+      cleanup = () => window.removeEventListener('site-ready', handler);
+    }
+    return () => cleanup && cleanup();
   }, []);
+
+  /* 3D tilt on the name */
+  const onTilt = (e) => {
+    const el = nameRef.current;
+    if (!el) return;
+    const r = el.getBoundingClientRect();
+    const px = (e.clientX - r.left) / r.width - 0.5;
+    const py = (e.clientY - r.top) / r.height - 0.5;
+    el.style.transform = `perspective(900px) rotateY(${px * 10}deg) rotateX(${-py * 10}deg)`;
+  };
+  const onTiltEnd = () => {
+    if (nameRef.current)
+      nameRef.current.style.transform = 'perspective(900px) rotateY(0deg) rotateX(0deg)';
+  };
 
   return (
     <section
       id="home"
-      ref={heroRef}
-      className="relative min-h-screen bg-[#060b13] flex items-center justify-center overflow-hidden cyber-grid pt-28 pb-16 md:py-20"
+      data-palette="0"
+      ref={rootRef}
+      className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6 pb-16 pt-28"
     >
-      {/* Concentric ambient background gradient glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] sm:w-[500px] sm:h-[500px] bg-[#10b981]/8 rounded-full blur-[90px] pointer-events-none z-0"></div>
-
-      {/* Tilted Background Project Scroll Tracks (170 degrees / -10deg rotate) */}
-      <div className="absolute right-[-10%] top-[-10%] bottom-[-10%] w-[100%] md:w-[60%] overflow-hidden pointer-events-none select-none z-0">
-        <div className="w-full h-full transform rotate-[-10deg] flex gap-4 justify-center items-center opacity-[0.35]">
-          {/* Track 1 */}
-          <div className="flex flex-col gap-6 animate-scroll-y w-[160px] sm:w-[200px] md:w-[240px] flex-shrink-0">
-            {[...bgProjects, ...bgProjects, ...bgProjects].map((img, i) => (
-              <div key={i} className="w-full aspect-[4/3] rounded-xl overflow-hidden border border-[#10b981]/25 bg-[#091522] shadow-[0_0_15px_rgba(16,185,129,0.15)] flex-shrink-0">
-                <img src={img} alt="project background" className="w-full h-full object-cover filter brightness-[0.6] contrast-125 grayscale-[20%]" />
-              </div>
-            ))}
-          </div>
-
-          {/* Track 2 */}
-          <div className="flex flex-col gap-6 animate-scroll-y-reverse w-[160px] sm:w-[200px] md:w-[240px] flex-shrink-0">
-            {[...bgProjects, ...bgProjects, ...bgProjects].map((img, i) => (
-              <div key={i} className="w-full aspect-[4/3] rounded-xl overflow-hidden border border-[#10b981]/25 bg-[#091522] shadow-[0_0_15px_rgba(16,185,129,0.15)] flex-shrink-0">
-                <img src={img} alt="project background" className="w-full h-full object-cover filter brightness-[0.6] contrast-125 grayscale-[20%]" />
-              </div>
-            ))}
-          </div>
-
-          {/* Track 3 (Visible on larger screens) */}
-          <div className="hidden sm:flex flex-col gap-6 animate-scroll-y w-[160px] sm:w-[200px] md:w-[240px] flex-shrink-0">
-            {[...bgProjects, ...bgProjects, ...bgProjects].map((img, i) => (
-              <div key={i} className="w-full aspect-[4/3] rounded-xl overflow-hidden border border-[#10b981]/25 bg-[#091522] shadow-[0_0_15px_rgba(16,185,129,0.15)] flex-shrink-0">
-                <img src={img} alt="project background" className="w-full h-full object-cover filter brightness-[0.6] contrast-125 grayscale-[20%]" />
-              </div>
-            ))}
-          </div>
+      <div className="relative z-10 mx-auto w-full max-w-5xl text-center">
+        <div className="h-badge mb-6 inline-flex items-center gap-2.5 rounded-full border border-cyan-400/30 bg-cyan-400/5 px-5 py-2 backdrop-blur-md">
+          <span className="animate-blink-dot h-2 w-2 rounded-full bg-cyan-300" />
+          <span className="font-mono2 text-[11px] uppercase tracking-[0.25em] text-cyan-200">
+            Available for freelance work
+          </span>
         </div>
 
-        {/* Ambient fade overlays to smoothly blend the slanted track edges */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#060b13] via-transparent to-transparent z-10"></div>
-        <div className="absolute inset-0 bg-gradient-to-t from-[#060b13] via-transparent to-[#060b13] z-10"></div>
-      </div>
-
-
-
-      {/* Content container */}
-      <div className="container px-2 mx-auto flex items-center justify-start max-w-6xl z-20 h-full relative">
-        <div className="w-full md:w-[75%] text-left flex flex-col items-start relative pt-12 md:pt-0">
-          
-          {/* Availability Badge */}
-          <div className="hero-animate-badge flex items-center gap-x-2 px-3.5 py-1.5 bg-[#10b981]/15 border border-[#10b981]/30 rounded-full text-[10px] font-semibold text-[#10b981] tracking-wider mb-6 uppercase">
-            <span className="w-2 h-2 rounded-full bg-[#10b981] animate-pulse shadow-[0_0_6px_#10b981]"></span>
-            Available for New Projects
-          </div>
-
-          {/* Title / Name */}
-          <h1 className="hero-animate-title text-4xl sm:text-5xl md:text-6xl font-orbitron font-black text-white leading-tight tracking-tight mb-2">
-            Hi, I'm <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#10b981] via-[#34d399] to-[#059669] text-glow-emerald">Taha Siraj</span>
+        <div
+          ref={nameRef}
+          onMouseMove={onTilt}
+          onMouseLeave={onTiltEnd}
+          className="transition-transform duration-200 ease-out will-change-transform"
+          data-hover
+        >
+          <h1 className="h-line font-display hero-shine text-[19vw] font-extrabold leading-[0.9] tracking-tight text-white sm:text-[15vw] lg:text-[10.5rem]">
+            {profile.firstName}
           </h1>
-          <h2 className="hero-animate-role text-2xl sm:text-3xl md:text-4xl font-orbitron font-extrabold text-white tracking-wide mb-6">
-            MERN Stack Developer
-          </h2>
+          <h1 className="h-line font-display hero-shine gradient-text text-[19vw] font-extrabold leading-[0.9] tracking-tight sm:text-[15vw] lg:text-[10.5rem]">
+            {profile.lastName}
+          </h1>
+        </div>
 
-          {/* Description */}
-          <p className="hero-animate-desc text-xs sm:text-sm md:text-base text-gray-300 leading-relaxed font-poppins mb-8 max-w-md">
-            Passionate MERN Stack Developer skilled in building clean, responsive, and user-friendly web applications using React, Next.js, Tailwind CSS, and Node.js.
-          </p>
+        <div className="h-role font-mono2 mt-6 text-base text-cyan-200 md:text-xl">
+          <span className="text-white/40">&gt;_</span> {text}
+          <span className="animate-blink-dot ml-1 inline-block h-4 w-[3px] translate-y-[2px] bg-cyan-300" />
+        </div>
 
-          {/* CTA Button */}
+        <p className="h-desc mx-auto mt-5 max-w-2xl text-sm leading-relaxed text-white/60 md:text-base">
+          {profile.tagline}
+        </p>
+
+        <div className="mt-9 flex flex-wrap items-center justify-center gap-4">
           <ScrollLink
             to="projects"
-            smooth={true}
-            duration={500}
+            smooth
+            duration={700}
             offset={-70}
-            className="hero-animate-cta cursor-pointer font-orbitron font-bold tracking-widest text-xs sm:text-sm px-6 py-3 bg-[#10b981] hover:bg-[#059669] text-gray-900 rounded-full flex items-center gap-x-2 hover:shadow-[0_0_20px_rgba(16,185,129,0.4)] transition-all duration-300 uppercase"
+            className="h-cta group inline-flex cursor-pointer items-center gap-2 rounded-full bg-gradient-to-r from-cyan-400 via-violet-500 to-fuchsia-500 px-8 py-3.5 text-sm font-bold text-[#030014] shadow-[0_0_36px_rgba(34,211,238,0.35)] transition-transform hover:scale-105"
           >
-            View Projects <FaArrowRight className="text-[10px] sm:text-xs" />
+            <FolderGit2 size={17} />
+            View My Work
           </ScrollLink>
+          <ScrollLink
+            to="contact"
+            smooth
+            duration={700}
+            offset={-70}
+            className="h-cta glass inline-flex cursor-pointer items-center gap-2 rounded-full px-8 py-3.5 text-sm font-bold text-white transition-all hover:border-cyan-300/50 hover:shadow-[0_0_28px_rgba(34,211,238,0.25)]"
+          >
+            <Send size={16} />
+            Let's Talk
+          </ScrollLink>
+        </div>
 
-          {/* Social Icons */}
-          <div className="hero-animate-socials flex items-center gap-x-4 mt-8">
+        <div className="mt-8 flex items-center justify-center gap-3">
+          {socials.map((s) => (
             <a
-              href="https://www.linkedin.com/in/taha-siraj-2331952a8/"
+              key={s.label}
+              href={s.href}
               target="_blank"
-              rel="noopener noreferrer"
-              className="p-2.5 bg-slate-900/60 border border-white/5 hover:border-[#10b981]/30 text-gray-400 hover:text-white rounded-full transition-all duration-300 text-base shadow"
+              rel="noreferrer"
+              aria-label={s.label}
+              className="h-social glass flex h-11 w-11 items-center justify-center rounded-full text-white/70 transition-all hover:-translate-y-1 hover:border-fuchsia-400/50 hover:text-white hover:shadow-[0_0_20px_rgba(255,0,255,0.35)]"
             >
-              <FaLinkedin />
+              <s.icon size={18} />
             </a>
-            <a
-              href="https://github.com/Taha-Siraj"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-2.5 bg-slate-900/60 border border-white/5 hover:border-[#10b981]/30 text-gray-400 hover:text-white rounded-full transition-all duration-300 text-base shadow"
-            >
-              <FaGithub />
-            </a>
-            <a
-              href="https://twitter.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-2.5 bg-slate-900/60 border border-white/5 hover:border-[#10b981]/30 text-gray-400 hover:text-white rounded-full transition-all duration-300 text-base shadow"
-            >
-              <FaTwitter />
-            </a>
-          </div>
+          ))}
+        </div>
 
+        <div className="h-stats glass mx-auto mt-12 grid max-w-3xl grid-cols-2 gap-6 rounded-3xl px-6 py-7 sm:grid-cols-4">
+          {profile.stats.map((s) => (
+            <Counter key={s.label} value={s.value} suffix={s.suffix} label={s.label} />
+          ))}
+        </div>
+      </div>
+
+      <div className="h-scroll absolute bottom-7 left-1/2 z-10 -translate-x-1/2">
+        <div className="flex h-12 w-7 items-start justify-center rounded-full border border-white/25 p-2">
+          <div
+            className="h-2.5 w-1 rounded-full bg-cyan-300"
+            style={{ animation: 'scroll-wheel 1.8s ease-in-out infinite' }}
+          />
         </div>
       </div>
     </section>
   );
-};
-
-export default Hero;
+}

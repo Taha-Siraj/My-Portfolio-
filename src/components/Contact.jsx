@@ -1,211 +1,174 @@
-import React, { useEffect, useRef } from 'react';
-import { FaGithub, FaLinkedin } from 'react-icons/fa';
-import { MdEmail } from 'react-icons/md';
-import { IoLocationSharp } from 'react-icons/io5';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useState } from 'react';
+import { Send, Loader2, CheckCircle2 } from 'lucide-react';
+import SectionHeading from './SectionHeading';
+import Reveal from './Reveal';
+import { profile, socials, contactInfo } from '../data/content';
 
-gsap.registerPlugin(ScrollTrigger);
-
-const Contact = () => {
-  const sectionRef = useRef(null);
-  const leftRef = useRef(null);
-  const rightRef = useRef(null);
+export default function Contact() {
+  const [sending, setSending] = useState(false);
+  const [sent, setSent] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const name = e.target.elements.name.value;
-    const email = e.target.elements.email.value;
-    const subject = e.target.elements.subject.value;
-    const message = e.target.elements.message.value;
-
-    const waText = encodeURIComponent(
-      `Hello Taha,\n\nName: ${name}\nEmail: ${email}\nSubject: ${subject}\n\nMessage: ${message}`
+    setSending(true);
+    const f = e.target.elements;
+    const text = encodeURIComponent(
+      `Hello Taha,\n\nName: ${f.name.value}\nEmail: ${f.email.value}\nSubject: ${f.subject.value}\n\nMessage:\n${f.message.value}`
     );
-    const waUrl = `https://wa.me/923083067081?text=${waText}`;
-    
-    window.open(waUrl, '_blank');
+    setTimeout(() => {
+      window.open(`https://wa.me/${profile.whatsapp}?text=${text}`, '_blank');
+      setSending(false);
+      setSent(true);
+      e.target.reset();
+      setTimeout(() => setSent(false), 5000);
+    }, 700);
   };
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 85%',
-          toggleActions: 'play none none reverse',
-        },
-      });
-
-      tl.from(leftRef.current, {
-        opacity: 0,
-        x: -100,
-        duration: 1,
-        ease: 'power3.out',
-      }).from(
-        rightRef.current,
-        {
-          opacity: 0,
-          x: 100,
-          duration: 1,
-          ease: 'power3.out',
-        },
-        '-=0.7'
-      );
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
+  const inputCls =
+    'w-full rounded-2xl border border-white/10 bg-white/5 px-5 py-3.5 text-sm text-white placeholder-white/30 outline-none backdrop-blur-md transition-all focus:border-cyan-300/60 focus:bg-white/10 focus:shadow-[0_0_24px_rgba(34,211,238,0.15)]';
 
   return (
     <section
       id="contact"
-      ref={sectionRef}
-      className="relative py-24 bg-[#060b13] overflow-hidden border-t border-[#10b981]/10"
+      data-palette="7"
+      className="relative z-10 px-6 py-28 md:py-36"
     >
-      <div className="absolute inset-0 cyber-grid-static opacity-30 pointer-events-none"></div>
+      <div className="mx-auto max-w-6xl">
+        <SectionHeading
+          eyebrow="Transmission"
+          title="Let's Build Something Epic"
+          desc="Have a project in mind? My inbox — and my DMs — are always open."
+        />
 
-      <div className="container mx-auto px-6 lg:px-20 z-10 relative">
-        
-        {/* Header */}
-        <div className="text-center mb-16">
-          <div className="text-xs font-mono tracking-[0.3em] text-[#10b981] uppercase mb-2">
-            [ Transmission Node ]
-          </div>
-          <h2 className="text-3xl md:text-5xl font-orbitron font-black text-white tracking-widest text-glow-emerald uppercase">
-            Contact Me
-          </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-[#10b981] to-[#047857] mx-auto mt-4 rounded-full shadow-[0_0_8px_#10b981]"></div>
-        </div>
-
-        <div className="bg-slate-950/60 p-6 md:p-12 rounded-2xl border border-slate-800 flex flex-col md:flex-row justify-between items-stretch w-full gap-12 tech-corners shadow-2xl">
-          
-          {/* Left Side - Communication Logs */}
-          <div
-            ref={leftRef}
-            className="flex flex-col justify-between md:w-1/2 gap-8"
-          >
-            <div>
-              <div className="text-[10px] font-mono text-[#10b981] mb-2 tracking-widest">// COMMS_STATUS: CONNECTED</div>
-              <h3 className="text-2xl md:text-3xl font-orbitron font-bold text-white mb-4">Let's Connect!</h3>
-              <p className="text-sm md:text-base text-gray-400 leading-relaxed font-poppins max-w-md">
-                Have a project, an idea, or just want to discuss some tech? My terminal is always listening. 
-                Submit your metadata packets, and I will establish a link. 🚀
+        <div className="grid gap-10 lg:grid-cols-5">
+          <div className="lg:col-span-2">
+            <Reveal>
+              <h3 className="font-display text-2xl font-bold text-white">
+                Get in <span className="gradient-text">touch</span>
+              </h3>
+              <p className="mt-3 text-sm leading-relaxed text-white/55">
+                Whether it's a full-stack build, a Shopify store, or a wild
+                WebGL idea — let's talk. I usually reply within 24 hours.
               </p>
+            </Reveal>
+
+            <div className="mt-7 space-y-4">
+              {contactInfo.map((c, i) => (
+                <Reveal key={c.label} delay={i * 0.08}>
+                  {c.href ? (
+                    <a
+                      href={c.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="glass group flex items-center gap-4 rounded-2xl p-4 transition-all hover:-translate-y-0.5 hover:border-cyan-300/40"
+                    >
+                      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-cyan-300/25 bg-cyan-400/10 text-cyan-300 transition-transform group-hover:scale-110">
+                        <c.icon size={19} />
+                      </span>
+                      <span>
+                        <span className="font-mono2 block text-[10px] uppercase tracking-[0.2em] text-white/40">
+                          {c.label}
+                        </span>
+                        <span className="block text-sm font-semibold text-white">
+                          {c.value}
+                        </span>
+                      </span>
+                    </a>
+                  ) : (
+                    <div className="glass flex items-center gap-4 rounded-2xl p-4">
+                      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-cyan-300/25 bg-cyan-400/10 text-cyan-300">
+                        <c.icon size={19} />
+                      </span>
+                      <span>
+                        <span className="font-mono2 block text-[10px] uppercase tracking-[0.2em] text-white/40">
+                          {c.label}
+                        </span>
+                        <span className="block text-sm font-semibold text-white">
+                          {c.value}
+                        </span>
+                      </span>
+                    </div>
+                  )}
+                </Reveal>
+              ))}
             </div>
 
-            <div className="space-y-4 font-mono text-sm">
-              <a
-                href="mailto:tahasiraj610@gmail.com"
-                className="flex items-center gap-3 text-gray-400 hover:text-[#10b981] transition-colors duration-300 group"
-              >
-                <div className="p-2 bg-slate-900 border border-slate-800 rounded group-hover:border-[#10b981]/40">
-                  <MdEmail className="text-xl text-[#10b981]" />
-                </div>
-                <span className="break-all text-xs">tahasiraj610@gmail.com</span>
-              </a>
-              
-              <div className="flex items-center gap-3 text-gray-400">
-                <div className="p-2 bg-slate-900 border border-slate-800 rounded">
-                  <IoLocationSharp className="text-[#10b981] text-xl" />
-                </div>
-                <span className="text-xs">Karachi, Pakistan // UTC+5</span>
+            <Reveal delay={0.25}>
+              <div className="mt-7 flex gap-3">
+                {socials.map((s) => (
+                  <a
+                    key={s.label}
+                    href={s.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label={s.label}
+                    className="glass flex h-11 w-11 items-center justify-center rounded-full text-white/70 transition-all hover:-translate-y-1 hover:border-fuchsia-400/50 hover:text-white hover:shadow-[0_0_20px_rgba(255,0,255,0.35)]"
+                  >
+                    <s.icon size={18} />
+                  </a>
+                ))}
               </div>
-            </div>
-
-            {/* Social terminal icons */}
-            <div className="flex items-center gap-6 pt-6 border-t border-slate-800/80">
-              <a
-                href="https://github.com/Taha-Siraj"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="GitHub"
-                className="p-3 bg-slate-900 border border-slate-800 hover:border-[#10b981]/40 text-gray-400 hover:text-white rounded-lg transition-all duration-300 text-xl"
-              >
-                <FaGithub />
-              </a>
-              <a
-                href="https://www.linkedin.com/in/taha-siraj-2331952a8/"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="LinkedIn"
-                className="p-3 bg-slate-900 border border-slate-800 hover:border-[#10b981]/40 text-gray-400 hover:text-white rounded-lg transition-all duration-300 text-xl"
-              >
-                <FaLinkedin />
-              </a>
-              <a
-                href="mailto:tahasiraj16@gmail.com"
-                aria-label="Email"
-                className="p-3 bg-slate-900 border border-slate-800 hover:border-[#10b981]/40 text-gray-400 hover:text-white rounded-lg transition-all duration-300 text-xl"
-              >
-                <MdEmail />
-              </a>
-            </div>
+            </Reveal>
           </div>
 
-          {/* Right Side - Packet Transmission Form */}
-          <form
-            ref={rightRef}
-            className="md:w-1/2 flex flex-col gap-4 font-mono"
-            onSubmit={handleSubmit}
-          >
-            <div className="text-[10px] text-[#10b981] uppercase tracking-widest mb-1">// Transmission Stream</div>
-            
-            <div className="relative">
-              <span className="absolute left-4 top-3.5 text-xs text-[#10b981]">&gt;</span>
-              <input
-                type="text"
-                name="name"
-                placeholder="USER_NAME"
-                className="py-3 px-8 w-full bg-slate-900/40 text-white placeholder-slate-600 outline-none border border-slate-800 focus:border-[#10b981]/50 rounded transition-colors text-xs"
-                required
-              />
-            </div>
-            
-            <div className="relative">
-              <span className="absolute left-4 top-3.5 text-xs text-[#10b981]">&gt;</span>
-              <input
-                type="email"
-                name="email"
-                placeholder="USER_EMAIL"
-                className="py-3 px-8 w-full bg-slate-900/40 text-white placeholder-slate-600 outline-none border border-slate-800 focus:border-[#10b981]/50 rounded transition-colors text-xs"
-                required
-              />
-            </div>
-
-            <div className="relative">
-              <span className="absolute left-4 top-3.5 text-xs text-[#10b981]">&gt;</span>
-              <input
-                type="text"
-                name="subject"
-                placeholder="PACKET_SUBJECT"
-                className="py-3 px-8 w-full bg-slate-900/40 text-white placeholder-slate-600 outline-none border border-slate-800 focus:border-[#10b981]/50 rounded transition-colors text-xs"
-                required
-              />
-            </div>
-
-            <div className="relative">
-              <span className="absolute left-4 top-4 text-xs text-[#10b981]">&gt;</span>
-              <textarea
-                name="message"
-                placeholder="MESSAGE_BODY"
-                rows={4}
-                className="py-3 px-8 w-full bg-slate-900/40 text-white placeholder-slate-600 outline-none border border-slate-800 focus:border-[#10b981]/50 rounded transition-colors text-xs resize-none"
-                required
-              ></textarea>
-            </div>
-
-            <button
-              type="submit"
-              className="mt-2 font-orbitron font-semibold tracking-widest text-xs uppercase px-6 py-3.5 rounded bg-[#10b981]/10 border border-[#10b981]/40 text-[#10b981] shadow-[0_0_15px_rgba(16,185,129,0.1)] hover:bg-[#10b981] hover:text-gray-900 hover:shadow-[0_0_20px_rgba(16,185,129,0.3)] transition-all duration-300 w-full text-center tech-corners cursor-pointer"
+          <Reveal delay={0.15} className="lg:col-span-3">
+            <form
+              onSubmit={handleSubmit}
+              className="glass relative overflow-hidden rounded-[1.75rem] p-7 md:p-9"
             >
-              Transmit Packet
-            </button>
-          </form>
+              <div className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full bg-fuchsia-500/15 blur-3xl" />
+              <div className="pointer-events-none absolute -bottom-16 -left-16 h-56 w-56 rounded-full bg-cyan-400/15 blur-3xl" />
+
+              <div className="relative grid gap-5 sm:grid-cols-2">
+                <input name="name" required placeholder="Your name" className={inputCls} />
+                <input
+                  name="email"
+                  type="email"
+                  required
+                  placeholder="Your email"
+                  className={inputCls}
+                />
+                <input
+                  name="subject"
+                  required
+                  placeholder="Subject"
+                  className={`${inputCls} sm:col-span-2`}
+                />
+                <textarea
+                  name="message"
+                  required
+                  rows={5}
+                  placeholder="Tell me about your project..."
+                  className={`${inputCls} resize-none sm:col-span-2`}
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={sending}
+                className="relative mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-cyan-400 via-violet-500 to-fuchsia-500 px-8 py-4 text-sm font-bold text-[#030014] shadow-[0_0_36px_rgba(34,211,238,0.3)] transition-transform hover:scale-[1.02] disabled:opacity-70 sm:w-auto"
+              >
+                {sending ? (
+                  <>
+                    <Loader2 size={17} className="animate-spin" /> Opening WhatsApp...
+                  </>
+                ) : sent ? (
+                  <>
+                    <CheckCircle2 size={17} /> Message Sent!
+                  </>
+                ) : (
+                  <>
+                    <Send size={16} /> Send Message
+                  </>
+                )}
+              </button>
+              <p className="font-mono2 relative mt-4 text-[11px] text-white/35">
+                {'//'} messages open directly in WhatsApp
+              </p>
+            </form>
+          </Reveal>
         </div>
       </div>
     </section>
   );
-};
-
-export default Contact;
+}

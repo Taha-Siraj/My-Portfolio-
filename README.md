@@ -1,12 +1,31 @@
-# React + Vite
+# Taha Siraj — WebGL Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+An immersive, real-time **WebGL + 3D** portfolio built with **React**, **Three.js** (custom GLSL shaders), **GSAP** and **Tailwind CSS**.
 
-Currently, two official plugins are available:
+## The 3D experience
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Morphing energy blob** — an icosahedron displaced in real time by 3D simplex-noise shaders, with fresnel glow
+- **10,000-particle starfield** — twinkling, depth-faded, additive-blended
+- **Scroll-reactive dimension** — the camera dollies through space and the whole scene **re-colors per section** (8 palettes)
+- **Giant wireframe torus knot**, orbiting rings, floating geometric shards with parallax
+- **Click anywhere** for a neon shockwave burst
+- Mouse-parallax camera, custom neon cursor, preloader, magnetic CTAs, 3D-tilt project cards
 
-## Expanding the ESLint configuration
+## Run locally
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```bash
+npm install
+npm run dev
+```
+
+## Build
+
+```bash
+npm run build
+```
+
+Deploy the `dist/` output anywhere static — Vercel, Netlify or GitHub Pages.
+
+---
+
+© 2026 Taha Siraj — MERN Stack Developer, Karachi Pakistan

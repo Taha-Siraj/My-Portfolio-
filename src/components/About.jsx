@@ -1,145 +1,140 @@
-import React, { useEffect, useRef } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useRef } from 'react';
+import { Download, MapPin, Briefcase, Sparkles } from 'lucide-react';
+import SectionHeading from './SectionHeading';
+import Reveal from './Reveal';
+import { profile } from '../data/content';
 
-gsap.registerPlugin(ScrollTrigger);
+export default function About() {
+  const frameRef = useRef(null);
 
-const About = () => {
-  const sectionRef = useRef(null);
-  const imageRef = useRef(null);
-  const textRef = useRef(null);
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 80%',
-          end: 'bottom 60%',
-          toggleActions: 'play none none reverse',
-        },
-      });
-
-      tl.from(imageRef.current, {
-        opacity: 0,
-        x: -100,
-        duration: 1,
-        ease: 'power3.out',
-      }).from(
-        textRef.current,
-        {
-          opacity: 0,
-          x: 100,
-          duration: 1,
-          ease: 'power3.out',
-        },
-        '-=0.7'
-      );
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
+  const onTilt = (e) => {
+    const el = frameRef.current;
+    if (!el) return;
+    const r = el.getBoundingClientRect();
+    const px = (e.clientX - r.left) / r.width - 0.5;
+    const py = (e.clientY - r.top) / r.height - 0.5;
+    el.style.transform = `perspective(1000px) rotateY(${px * 12}deg) rotateX(${-py * 12}deg)`;
+  };
 
   return (
-    <section
-      id="about"
-      ref={sectionRef}
-      className="relative py-24 bg-[#060b13] overflow-hidden border-t border-[#10b981]/10"
-    >
-      {/* Grid Background Overlay */}
-      <div className="absolute inset-0 cyber-grid-static pointer-events-none opacity-40"></div>
+    <section id="about" data-palette="1" className="relative z-10 px-6 py-28 md:py-36">
+      <div className="mx-auto max-w-6xl">
+        <SectionHeading
+          eyebrow="Core Dossier"
+          title="About Me"
+          desc="Developer by craft, dimension-bender by curiosity."
+        />
 
-      <div className="relative container mx-auto px-6 max-w-6xl z-10">
-        
-        {/* Futuristic Section Header */}
-        <div className="text-center mb-16">
-          <div className="text-xs font-mono tracking-[0.3em] text-[#10b981] uppercase mb-2">
-            [ Core Dossier ]
-          </div>
-          <h2 className="text-3xl md:text-5xl font-orbitron font-black text-white tracking-widest text-glow-emerald uppercase">
-            About Me
-          </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-[#10b981] to-[#047857] mx-auto mt-4 rounded-full shadow-[0_0_8px_#10b981]"></div>
-        </div>
-
-        <div className="flex flex-col lg:flex-row gap-y-12 lg:gap-y-0 gap-x-12 justify-between items-center">
-          
-          {/* Futuristic Dossier Image Module */}
-          <div
-            ref={imageRef}
-            className="relative h-[300px] w-[300px] sm:h-[350px] sm:w-[350px] flex-shrink-0 tech-corners p-2 bg-slate-950/80 border border-[#10b981]/20 shadow-2xl rounded"
-          >
-            <div className="absolute inset-0 border border-[#10b981]/10 rounded pointer-events-none m-4"></div>
-            <div className="relative h-full w-full overflow-hidden rounded">
-              <img
-                src="user-profile.jpg"
-                alt="Taha Siraj Dossier"
-                className="h-full w-full object-cover grayscale hover:grayscale-0 transition-all duration-500 scale-105 hover:scale-100"
-                loading="lazy"
-              />
-              <div className="absolute inset-0 bg-[#10b981]/10 pointer-events-none mix-blend-color"></div>
-            </div>
-            {/* Visual tech badge overlay */}
-            <div className="absolute bottom-4 right-4 bg-slate-950/90 border border-[#10b981]/30 text-[10px] font-mono text-[#10b981] px-3 py-1 rounded shadow">
-              DCR_ID // TS_982
-            </div>
-          </div>
-
-          {/* Holographic Text Dossier */}
-          <div
-            ref={textRef}
-            className="lg:w-[62%] flex flex-col gap-y-6 text-gray-300 max-w-3xl"
-          >
-            <div className="cyber-card p-6 rounded-lg border border-[#10b981]/15 relative">
-              <div className="absolute top-2 right-4 text-[10px] font-mono text-[#10b981] uppercase tracking-widest">
-                [ Overview ]
+        <div className="grid items-center gap-14 lg:grid-cols-2">
+          <Reveal className="tilt-scene">
+            <div
+              ref={frameRef}
+              onMouseMove={onTilt}
+              onMouseLeave={() => {
+                if (frameRef.current)
+                  frameRef.current.style.transform =
+                    'perspective(1000px) rotateY(0deg) rotateX(0deg)';
+              }}
+              className="tilt-card relative mx-auto max-w-sm transition-transform duration-200"
+              data-hover
+            >
+              <div className="absolute -inset-3 rounded-[2rem] bg-gradient-to-br from-cyan-400/30 via-violet-500/20 to-fuchsia-500/30 blur-2xl" />
+              <div className="glass tilt-inner relative overflow-hidden rounded-[1.75rem] p-2">
+                <img
+                  src={profile.avatar}
+                  alt="Taha Siraj"
+                  className="h-[420px] w-full rounded-[1.4rem] object-cover object-top"
+                  loading="lazy"
+                />
+                <div className="absolute inset-2 rounded-[1.4rem] bg-gradient-to-t from-[#030014]/80 via-transparent to-transparent" />
               </div>
-              <p className="text-base sm:text-lg leading-relaxed text-gray-300">
-                As a passionate <strong className="text-[#10b981] font-semibold font-orbitron text-sm">MERN Stack Developer</strong>, I specialize in building clean, responsive, and user-friendly web applications. Currently honing my software engineering skills at Saylani Mass IT Training (SMIT) while pursuing my Computer Science degree, I love turning complex logic into seamless full-stack products.
+              <div className="animate-float absolute -right-4 top-8 flex items-center gap-2 rounded-2xl border border-violet-400/30 bg-[#0a0620]/90 px-4 py-2.5 backdrop-blur-md">
+                <Sparkles size={16} className="text-violet-300" />
+                <span className="font-mono2 text-xs font-semibold text-white">
+                  MERN STACK
+                </span>
+              </div>
+              <div
+                className="animate-float absolute -left-4 bottom-10 flex items-center gap-2 rounded-2xl border border-cyan-400/30 bg-[#0a0620]/90 px-4 py-2.5 backdrop-blur-md"
+                style={{ animationDelay: '-3s' }}
+              >
+                <Briefcase size={16} className="text-cyan-300" />
+                <span className="font-mono2 text-xs font-semibold text-white">
+                  FULL STACK ENGINEER
+                </span>
+              </div>
+            </div>
+          </Reveal>
+
+          <div>
+            <Reveal>
+              <h3 className="font-display text-2xl font-bold text-white md:text-3xl">
+                Turning ideas into{' '}
+                <span className="gradient-text">living interfaces</span>
+              </h3>
+            </Reveal>
+            <Reveal delay={0.1}>
+              <p className="mt-5 leading-relaxed text-white/60">
+                I'm <span className="font-semibold text-white">Taha Siraj</span>, a
+                Full Stack Developer based in {profile.location}. I specialize in
+                the MERN stack — designing and shipping everything from school
+                management platforms serving 500+ students to real-time WebGL
+                experiences like the one you're looking at right now.
               </p>
-            </div>
+            </Reveal>
+            <Reveal delay={0.18}>
+              <p className="mt-4 leading-relaxed text-white/60">
+                Currently I'm a{' '}
+                <span className="text-cyan-300">
+                  Full Stack Engineer & Shopify Developer at Next Revolution Tech
+                </span>
+                , where I build scalable React/Next.js applications, custom
+                Shopify stores and Node.js APIs. My obsession: interfaces that
+                feel alive — shaders, motion, depth.
+              </p>
+            </Reveal>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="cyber-card p-5 rounded-lg border border-[#10b981]/10">
-                <h4 className="font-orbitron text-xs text-[#10b981] uppercase tracking-wider mb-2">
-                  // Academic Path
-                </h4>
-                <p className="text-sm text-gray-400 leading-relaxed">
-                  Pursuing Computer Science at Govt. Jinnah College (2023 - 2025) and professional MERN Stack development at Saylani Mass IT Training (SMIT).
-                </p>
+            <Reveal delay={0.26}>
+              <div className="mt-7 grid gap-3 text-sm sm:grid-cols-2">
+                <div className="glass flex items-center gap-3 rounded-2xl px-4 py-3">
+                  <MapPin size={17} className="shrink-0 text-cyan-300" />
+                  <span className="text-white/75">{profile.location}</span>
+                </div>
+                <div className="glass flex items-center gap-3 rounded-2xl px-4 py-3">
+                  <Briefcase size={17} className="shrink-0 text-fuchsia-400" />
+                  <span className="text-white/75">Open to freelance & roles</span>
+                </div>
               </div>
+            </Reveal>
 
-              <div className="cyber-card p-5 rounded-lg border border-[#10b981]/10">
-                <h4 className="font-orbitron text-xs text-[#10b981] uppercase tracking-wider mb-2">
-                  // Core Philosophy
-                </h4>
-                <p className="text-sm text-gray-400 leading-relaxed">
-                  Dedicated to delivering high-performance logical backend architectures paired with pixel-perfect, interactive user interfaces.
-                </p>
+            <Reveal delay={0.34}>
+              <div className="mt-8 flex flex-wrap gap-2">
+                {['Problem Solver', 'Clean Code', 'Pixel Obsessed', 'Fast Learner', 'Team Player'].map(
+                  (chip) => (
+                    <span
+                      key={chip}
+                      className="font-mono2 rounded-full border border-violet-400/25 bg-violet-500/10 px-4 py-1.5 text-xs text-violet-200"
+                    >
+                      {chip}
+                    </span>
+                  )
+                )}
               </div>
-            </div>
+            </Reveal>
 
-            {/* Quick Metadata Table */}
-            <div className="cyber-card px-6 py-4 rounded-lg border border-[#10b981]/10 font-mono text-xs text-gray-400 divide-y divide-slate-800">
-              <div className="flex justify-between py-2">
-                <span className="text-[#10b981]">SPECIALIZATION</span>
-                <span className="text-white">MERN & Full-Stack Development</span>
-              </div>
-              <div className="flex justify-between py-2">
-                <span className="text-[#10b981]">CORE FRAMEWORKS</span>
-                <span className="text-white">React.js, Next.js, Node.js, Express.js, MongoDB</span>
-              </div>
-              <div className="flex justify-between py-2">
-                <span className="text-[#10b981]">ACTIVE REGION</span>
-                <span className="text-white">Karachi, Pakistan</span>
-              </div>
-            </div>
+            <Reveal delay={0.42}>
+              <a
+                href={profile.cv}
+                download
+                className="mt-9 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-cyan-400 to-fuchsia-500 px-8 py-3.5 text-sm font-bold text-[#030014] shadow-[0_0_30px_rgba(34,211,238,0.3)] transition-transform hover:scale-105"
+              >
+                <Download size={17} />
+                Download CV
+              </a>
+            </Reveal>
           </div>
-          
         </div>
       </div>
     </section>
   );
-};
-
-export default About;
+}
