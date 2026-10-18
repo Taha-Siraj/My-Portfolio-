@@ -3,12 +3,11 @@ import { Link as ScrollLink } from 'react-scroll';
 import gsap from 'gsap';
 
 const LINKS = [
-  { to: 'home', label: 'START' },
-  { to: 'about', label: 'HERO' },
+  { to: 'about', label: 'ABOUT' },
   { to: 'skills', label: 'SKILLS' },
-  { to: 'experience', label: 'QUESTS' },
-  { to: 'projects', label: 'MISSIONS' },
-  { to: 'contact', label: 'PARTY' },
+  { to: 'projects', label: 'WORK' },
+  { to: 'experience', label: 'JOURNEY' },
+  { to: 'contact', label: 'CONTACT' },
 ];
 
 export default function Navbar() {
@@ -19,8 +18,8 @@ export default function Navbar() {
     const start = () => {
       gsap.fromTo(
         navRef.current,
-        { y: -70, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.8, ease: 'power3.out' }
+        { y: -90, rotate: -2, opacity: 0 },
+        { y: 0, rotate: 0, opacity: 1, duration: 0.9, ease: 'back.out(1.4)' }
       );
     };
     if (window.__siteReady) start();
@@ -29,33 +28,31 @@ export default function Navbar() {
 
   return (
     <>
-      <nav
-        ref={navRef}
-        className="pixel-panel fixed left-1/2 top-4 z-50 w-[94%] max-w-4xl -translate-x-1/2 md:top-6"
-        style={{ opacity: 0 }}
-      >
-        <div className="flex items-center justify-between px-4 py-3">
+      <nav ref={navRef} className="fixed left-0 right-0 top-4 z-[80] px-4" style={{ opacity: 0 }}>
+        <div className="mx-auto flex max-w-6xl items-center justify-between gap-3">
           <ScrollLink
             to="home"
             smooth
             duration={600}
-            className="font-pixel cursor-pointer text-xs text-white md:text-sm"
+            className="sticker-dark rotate-[-3deg] cursor-pointer px-4 py-2.5"
           >
-            <span className="mr-2 inline-block h-4 w-4 border-2 border-black bg-[#00e436] align-middle" />
-            TAHA<span className="text-[#00e436]">.SIRAJ</span>
+            <span className="font-display text-lg text-white">
+              TAHA<span className="text-[#b6fe00]">.SIRAJ</span>
+            </span>
           </ScrollLink>
 
-          <div className="hidden items-center gap-1 md:flex">
-            {LINKS.map((l) => (
+          <div className="hidden items-center gap-2 md:flex">
+            {LINKS.map((l, i) => (
               <ScrollLink
                 key={l.to}
                 to={l.to}
                 smooth
-                duration={600}
-                offset={-90}
+                duration={650}
+                offset={-70}
                 spy
-                activeClass="!text-[#ffec27]"
-                className="font-pixel cursor-pointer px-3 py-2 text-[10px] text-[#9a9ab0] transition-colors hover:bg-black/30 hover:text-white"
+                activeClass="!bg-[#013900] !text-[#b6fe00]"
+                className="sticker cursor-pointer px-4 py-2 font-display text-sm tracking-wide text-[#013900] transition-transform hover:-rotate-3 hover:scale-105"
+                style={{ transform: `rotate(${i % 2 === 0 ? 1.5 : -1.5}deg)` }}
               >
                 {l.label}
               </ScrollLink>
@@ -63,9 +60,9 @@ export default function Navbar() {
             <ScrollLink
               to="contact"
               smooth
-              duration={600}
-              offset={-90}
-              className="pixel-btn pixel-btn-yellow font-pixel ml-2 cursor-pointer px-4 py-2 text-[10px]"
+              duration={650}
+              offset={-70}
+              className="btn-chunk cursor-pointer bg-[#fa8005] px-5 py-2.5 font-display text-sm text-white"
             >
               HIRE ME
             </ScrollLink>
@@ -73,25 +70,26 @@ export default function Navbar() {
 
           <button
             onClick={() => setOpen(!open)}
-            className="font-pixel px-3 py-2 text-xs text-white md:hidden"
+            className="sticker px-4 py-2 font-display text-sm text-[#013900] md:hidden"
             aria-label="Menu"
           >
-            {open ? '[X]' : '[=]'}
+            {open ? 'CLOSE' : 'MENU'}
           </button>
         </div>
       </nav>
 
       {open && (
-        <div className="fixed inset-0 z-40 flex flex-col items-center justify-center gap-3 bg-[#101018]/95 md:hidden">
-          {LINKS.map((l) => (
+        <div className="fixed inset-0 z-[75] flex flex-col items-center justify-center gap-4 bg-[#013900]/97 md:hidden">
+          {LINKS.map((l, i) => (
             <ScrollLink
               key={l.to}
               to={l.to}
               smooth
               duration={600}
-              offset={-90}
+              offset={-70}
               onClick={() => setOpen(false)}
-              className="font-pixel cursor-pointer border-4 border-black bg-[#1d1d2b] px-8 py-4 text-sm text-white"
+              className="sticker cursor-pointer px-8 py-3 font-display text-2xl text-[#013900]"
+              style={{ transform: `rotate(${i % 2 === 0 ? -2 : 2}deg)` }}
             >
               {l.label}
             </ScrollLink>

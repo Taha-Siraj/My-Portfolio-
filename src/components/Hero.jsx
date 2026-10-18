@@ -1,40 +1,29 @@
 import { useEffect, useRef } from 'react';
 import { Link as ScrollLink } from 'react-scroll';
 import gsap from 'gsap';
-import { profile, socials } from '../data/content';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { profile } from '../data/content';
 
-function Bar({ label, value, color, delay = 0 }) {
-  const fillRef = useRef(null);
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        fillRef.current,
-        { width: '0%' },
-        {
-          width: `${value}%`,
-          duration: 1.6,
-          delay,
-          ease: 'power3.out',
-          scrollTrigger: { trigger: fillRef.current, start: 'top 95%' },
-        }
-      );
-    });
-    return () => ctx.revert();
-  }, [value, delay]);
+gsap.registerPlugin(ScrollTrigger);
+
+function Chars({ text, className }) {
   return (
-    <div>
-      <div className="mb-1 flex items-center justify-between">
-        <span className="font-pixel text-[9px] text-[#9a9ab0]">{label}</span>
-        <span className="text-lg leading-none" style={{ color }}>
-          {value}
+    <span className={`inline-block overflow-hidden ${className || ''}`}>
+      {text.split('').map((ch, i) => (
+        <span key={i} className="h-char inline-block will-change-transform">
+          {ch === ' ' ? '\u00A0' : ch}
         </span>
-      </div>
-      <div className="stat-bar h-5">
-        <div ref={fillRef} className="stat-fill w-0" style={{ background: color }} />
-      </div>
-    </div>
+      ))}
+    </span>
   );
 }
+
+const STICKERS = [
+  { text: 'OPEN TO WORK', bg: '#fa8005', color: '#fff', rot: -8, cls: 'st-1' },
+  { text: '74+ REPOS', bg: '#50cbff', color: '#101010', rot: 7, cls: 'st-2' },
+  { text: 'MERN STACK', bg: '#f7d000', color: '#101010', rot: -5, cls: 'st-3' },
+  { text: '★ SHIPPED', bg: '#ff7b5f', color: '#fff', rot: 9, cls: 'st-4' },
+];
 
 export default function Hero() {
   const rootRef = useRef(null);
@@ -42,145 +31,156 @@ export default function Hero() {
   useEffect(() => {
     const run = () => {
       const ctx = gsap.context(() => {
-        const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
-        tl.from('.h-badge', { opacity: 0, y: -20, duration: 0.5 })
-          .from('.h-card', { opacity: 0, y: 60, duration: 0.8 }, '-=0.25')
-          .from('.h-side > *', { opacity: 0, x: 40, duration: 0.6, stagger: 0.12 }, '-=0.5')
-          .from('.h-stats > *', { opacity: 0, y: 24, duration: 0.5, stagger: 0.08 }, '-=0.3');
+        const tl = gsap.timeline({ defaults: { ease: 'power4.out' } });
+        tl.from('.h-logo', { scale: 0, rotate: -20, duration: 0.7, ease: 'back.out(1.8)' })
+          .from('.h-char', { yPercent: 115, duration: 0.85, stagger: 0.035 }, '-=0.35')
+          .from('.h-tape', { scaleX: 0, duration: 0.6, ease: 'power3.out' }, '-=0.5')
+          .from('.h-photo', { scale: 0.6, opacity: 0, rotate: 14, duration: 0.9, ease: 'back.out(1.5)' }, '-=0.55')
+          .from('.h-sticker', { scale: 0, rotate: 30, duration: 0.6, stagger: 0.1, ease: 'back.out(2)' }, '-=0.6')
+          .from('.h-cta', { y: 40, opacity: 0, duration: 0.6, stagger: 0.12 }, '-=0.5')
+          .from('.h-note', { opacity: 0, x: -30, duration: 0.7 }, '-=0.4');
+
+        /* floating stickers drift */
+        gsap.utils.toArray('.h-sticker').forEach((el, i) => {
+          gsap.to(el, {
+            y: i % 2 === 0 ? -16 : 14,
+            duration: 2.4 + i * 0.4,
+            yoyo: true,
+            repeat: -1,
+            ease: 'sine.inOut',
+          });
+        });
+
+        /* scroll parallax: headline races ahead */
+        gsap.to('.h-title', {
+          yPercent: 28,
+          ease: 'none',
+          scrollTrigger: { trigger: rootRef.current, start: 'top top', end: 'bottom top', scrub: true },
+        });
+        gsap.to('.h-photo', {
+          yPercent: -18,
+          rotate: 8,
+          ease: 'none',
+          scrollTrigger: { trigger: rootRef.current, start: 'top top', end: 'bottom top', scrub: true },
+        });
       }, rootRef);
       return () => ctx.revert();
     };
     let cleanup;
     if (window.__siteReady) cleanup = run();
     else {
-      const handler = () => {
-        cleanup = run();
-      };
-      window.addEventListener('site-ready', handler, { once: true });
-      cleanup = () => window.removeEventListener('site-ready', handler);
+      const h = () => { cleanup = run(); };
+      window.addEventListener('site-ready', h, { once: true });
+      cleanup = () => window.removeEventListener('site-ready', h);
     }
     return () => cleanup && cleanup();
   }, []);
+
+  /* mouse parallax on stickers */
+  const onMove = (e) => {
+    const r = rootRef.current.getBoundingClientRect();
+    const px = (e.clientX - r.left) / r.width - 0.5;
+    const py = (e.clientY - r.top) / r.height - 0.5;
+    gsap.to('.h-sticker', { x: px * 34, duration: 0.6, ease: 'power2.out', overwrite: 'auto' });
+    gsap.to('.h-photo', { x: px * -22, duration: 0.8, ease: 'power2.out', overwrite: 'auto' });
+  };
 
   return (
     <section
       id="home"
       ref={rootRef}
-      className="relative flex min-h-screen flex-col items-center justify-center px-4 pb-20 pt-32 md:pt-36"
+      onMouseMove={onMove}
+      className="relative overflow-hidden bg-[#b6fe00] pb-24 pt-32 md:pt-40"
     >
-      <div className="relative z-10 mx-auto w-full max-w-6xl">
-        <div className="h-badge mb-8 text-center">
-          <span className="font-pixel animate-blink text-[10px] text-[#ffec27] md:text-xs">
-            ▼ PRESS START ▼
+      {/* scattered sticker badges */}
+      <div className="pointer-events-none absolute inset-0 z-10">
+        <div className="h-sticker sticker-pop absolute left-[6%] top-[22%] rotate-[-8deg] bg-[#fa8005] px-4 py-2 font-display text-sm text-white">
+          OPEN TO WORK
+        </div>
+        <div className="h-sticker sticker-pop absolute right-[8%] top-[30%] rotate-[7deg] bg-[#50cbff] px-4 py-2 font-display text-sm text-[#101010]">
+          74+ REPOS
+        </div>
+        <div className="h-sticker badge-circle absolute bottom-[26%] left-[10%] flex h-28 w-28 rotate-[-5deg] items-center justify-center bg-[#f7d000] text-center font-display text-xs leading-tight text-[#101010]">
+          MERN
+          <br />
+          STACK
+        </div>
+        <div className="h-sticker sticker-pop absolute bottom-[30%] right-[12%] rotate-[9deg] bg-[#ff7b5f] px-4 py-2 font-display text-sm text-white">
+          ★ SHIPPED
+        </div>
+      </div>
+
+      <div className="relative z-20 mx-auto max-w-7xl px-5">
+        <div className="h-logo sticker-dark inline-block rotate-[-3deg] px-6 py-3">
+          <span className="font-display text-xl tracking-wide text-white md:text-2xl">
+            TAHA<span className="text-[#b6fe00]">.SIRAJ</span>
           </span>
+          <span className="tape tape-green -top-4 left-8 rotate-[-6deg]" style={{ width: 90 }} />
         </div>
 
-        <div className="grid items-start gap-8 lg:grid-cols-5">
-          {/* PLAYER CARD */}
-          <div className="h-card pixel-panel p-6 md:p-8 lg:col-span-3">
-            <div className="flex items-center justify-between">
-              <span className="font-pixel bg-[#00e436] px-3 py-1.5 text-[9px] text-[#061206] border-2 border-black">
-                PLAYER 1
-              </span>
-              <span className="font-pixel text-[9px] text-[#9a9ab0]">
-                LVL {profile.level}
+        <h1 className="h-title font-display mt-6 leading-[0.88] text-[#013900]">
+          <Chars text="TAHA" className="block text-[26vw] md:text-[19vw]" />
+          <Chars text="SIRAJ" className="block text-[26vw] text-outline md:text-[19vw]" />
+        </h1>
+
+        <div className="mt-8 flex flex-col items-start gap-10 lg:flex-row lg:items-center">
+          <div className="max-w-xl">
+            <div className="h-tape inline-block origin-left rotate-[-1.5deg] bg-[#013900] px-5 py-2.5">
+              <span className="font-display text-lg tracking-wider text-[#b6fe00] md:text-xl">
+                MERN STACK DEVELOPER
               </span>
             </div>
-
-            <h1 className="h-pixel mt-6 text-3xl leading-tight text-white sm:text-4xl md:text-5xl">
-              {profile.firstName}
-              <br />
-              <span className="text-[#00e436]">{profile.lastName}</span>
-            </h1>
-
-            <div className="font-pixel mt-4 text-[10px] leading-relaxed text-[#29adff] md:text-xs">
-              {'<'} {profile.title} {'>'}
-            </div>
-
-            <p className="mt-5 max-w-xl text-xl leading-snug text-[#c9c9d8] md:text-2xl">
+            <p className="mt-5 max-w-md text-lg font-semibold leading-snug text-[#013900]">
               {profile.tagline}
             </p>
-
-            <div className="mt-7 grid gap-4 sm:grid-cols-3">
-              <Bar label="HP / HEALTH" value={profile.hp} color="#ff004d" />
-              <Bar label="MP / MANA" value={profile.mp} color="#29adff" delay={0.15} />
-              <Bar label="XP / CAREER" value={profile.xp} color="#00e436" delay={0.3} />
-            </div>
-
-            <div className="mt-8 flex flex-wrap gap-4">
+            <div className="mt-7 flex flex-wrap gap-4">
               <ScrollLink
                 to="projects"
                 smooth
                 duration={700}
-                offset={-80}
-                className="pixel-btn pixel-btn-green font-pixel cursor-pointer px-6 py-4 text-[11px]"
+                offset={-60}
+                className="h-cta btn-chunk cursor-pointer bg-[#013900] px-8 py-4 font-display text-base text-[#b6fe00]"
               >
-                ▶ START QUEST
+                VIEW MY WORK →
               </ScrollLink>
               <ScrollLink
                 to="contact"
                 smooth
                 duration={700}
-                offset={-80}
-                className="pixel-btn pixel-btn-ghost font-pixel cursor-pointer px-6 py-4 text-[11px]"
+                offset={-60}
+                className="h-cta btn-chunk cursor-pointer bg-white px-8 py-4 font-display text-base text-[#013900]"
               >
-                JOIN PARTY
+                HIRE ME
               </ScrollLink>
             </div>
+            <p className="h-note font-hand mt-6 rotate-[-2deg] text-3xl text-[#013900]">
+              ↑ yes, this whole site is one big sticker. scroll on!
+            </p>
           </div>
 
-          {/* SIDE PANEL */}
-          <div className="h-side flex flex-col gap-6 lg:col-span-2">
-            <div className="pixel-panel p-6">
-              <div className="font-pixel mb-4 text-[10px] text-[#ffec27]">
-                ▣ CHARACTER STATS
-              </div>
-              <div className="grid grid-cols-2 gap-x-6 gap-y-3">
-                {profile.stats.map((s) => (
-                  <div key={s.label} className="border-b-2 border-black/40 pb-2">
-                    <div className="font-pixel text-lg text-white">
-                      {s.value}
-                      {s.suffix}
-                    </div>
-                    <div className="font-pixel mt-1 text-[8px] leading-relaxed text-[#9a9ab0]">
-                      {s.label.toUpperCase()}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="pixel-panel p-6">
-              <div className="font-pixel mb-4 text-[10px] text-[#29adff]">
-                ▣ SOCIAL LINKS
-              </div>
-              <div className="flex flex-wrap gap-3">
-                {socials.map((s) => (
-                  <a
-                    key={s.label}
-                    href={s.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label={s.label}
-                    title={s.label}
-                    className="pixel-panel-light flex h-12 w-12 items-center justify-center text-white transition-transform hover:-translate-y-1"
-                    style={{ color: '#f4f4f4' }}
-                  >
-                    <s.icon size={20} />
-                  </a>
-                ))}
-              </div>
-              <div className="mt-4 text-xl text-[#9a9ab0]">
-                <span className="text-[#00e436]">▸</span> {profile.location}
-              </div>
+          {/* taped photo */}
+          <div className="h-photo relative mx-auto w-64 shrink-0 rotate-[5deg] md:w-80">
+            <div className="paper-card relative p-3 pb-10">
+              <span className="tape -top-3 left-1/2 -translate-x-1/2 rotate-[-4deg]" />
+              <span className="tape tape-white -bottom-2 left-6 rotate-[8deg]" style={{ width: 100 }} />
+              <img
+                src={profile.avatar}
+                alt="Taha Siraj"
+                className="h-72 w-full border-4 border-[#101010] object-cover object-top md:h-96"
+                onError={(e) => { e.currentTarget.style.display = 'none'; }}
+              />
+              <p className="font-hand mt-2 text-center text-2xl text-[#101010]">
+                the dev himself
+              </p>
             </div>
           </div>
         </div>
+      </div>
 
-        <div className="h-stats mt-10 flex justify-center">
-          <div className="animate-bounce-soft font-pixel text-[10px] text-[#9a9ab0]">
-            ▼ SCROLL ▼
-          </div>
+      {/* pull-me tab */}
+      <div className="absolute right-6 top-28 z-20 hidden rotate-90 md:block">
+        <div className="border-y-4 border-dashed border-[#013900]/40 px-6 py-2 font-display text-sm tracking-[0.3em] text-[#013900]">
+          PULL ME ↓
         </div>
       </div>
     </section>

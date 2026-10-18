@@ -1,41 +1,38 @@
-# Taha Siraj — Game Portfolio
+# Taha Siraj — Sticker-Bomb Portfolio
 
-A **web-game styled** portfolio: solid colors, pixel UI, zero neon, zero gradients.
-Built with **React**, **Three.js** (low-poly flat-shaded 3D world) and **GSAP**.
+A loud, playful, **sticker-bomb** single-page portfolio inspired by
+sweet-tape.com — crumpled-paper textures, giant condensed type, taped-up
+photo cards and scroll-driven chapters. **GSAP A to Z**, no WebGL.
 
-## The game world
+## Design language
 
-A real-time low-poly floating island rendered behind the page:
+- **Palette:** acid lime `#b6fe00` + deep pine `#013900`, with orange, sunny
+  yellow, coral, sky blue and kraft cardboard section alternates
+- **Type:** Anton (giant condensed display), Caveat (handwritten margin notes),
+  Archivo (body)
+- **Motifs:** stickers with hard shadows, masking-tape strips, sticky notes,
+  starburst badges, wavy marquee ribbons
 
-- Night sky with stars, moon, drifting blocky clouds and fireflies
-- Animated water, waving flag, spinning gold coins, a little knight character
-- Orbiting camera that reacts to scroll + mouse
-- **Click anywhere** for a coin fountain burst
+## GSAP moments
 
-## The game UI
+- Preloader with sticker pop and curtain lift
+- Hero: character-stagger headline, back.out sticker pops, mouse parallax,
+  scroll parallax on headline + photo
+- Wavy marquee ribbons that straighten on scroll
+- **Manifesto:** pinned section — kraft panels slide up revealing giant lines
+- **Chapters:** pinned full-screen TO CREATE / TO CODE / TO SHIP panels with
+  parallax stickers at different depths
+- Sticker-wall skills with random pop-in, taped timeline, spinning badge
 
-- **Preloader** — pixel loading bar with random tips
-- **Hero** — player profile card: LVL, HP/MP/XP bars, character stats
-- **Skills** — skill tree with segmented level bars
-- **Experience** — quest log (in-progress / completed)
-- **Projects** — mission board cards with PLAY + SOURCE buttons
-- **Services** — power-ups, **Education** — training grounds
-- **Contact** — "join my party" transmission form (opens WhatsApp)
-
-## Run locally
+## Run / build
 
 ```bash
 npm install
 npm run dev
-```
-
-## Build
-
-```bash
 npm run build
 ```
 
-Deploy the `dist/` output anywhere static — Vercel, Netlify or GitHub Pages.
+Deploy `dist/` anywhere static — Vercel, Netlify or GitHub Pages.
 
 ---
 

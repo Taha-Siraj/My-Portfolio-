@@ -1,81 +1,108 @@
-import SectionHeading from './SectionHeading';
-import Reveal from './Reveal';
-import { experience } from '../data/content';
+import { useEffect, useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { experience, education } from '../data/content';
+
+gsap.registerPlugin(ScrollTrigger);
+
+function Timeline({ items, kind }) {
+  return (
+    <div className="relative">
+      <div className="absolute bottom-0 left-[26px] top-0 w-1.5 bg-[#101010] md:left-1/2 md:-translate-x-1/2" />
+      {items.map((item, i) => (
+        <div
+          key={i}
+          className={`tl-item relative mb-10 pl-20 md:w-1/2 md:pl-0 ${
+            i % 2 === 0 ? 'md:pr-14' : 'md:ml-auto md:pl-14'
+          }`}
+        >
+          <div
+            className={`absolute top-3 h-8 w-8 rotate-45 border-4 border-[#101010] ${
+              i % 2 === 0
+                ? 'left-[14px] md:left-auto md:-right-[16px]'
+                : 'left-[14px] md:-left-[16px]'
+            }`}
+            style={{ background: ['#b6fe00', '#fa8005', '#50cbff'][i % 3] }}
+          />
+          <div
+            className="paper-card relative p-6"
+            style={{ transform: `rotate(${(i % 2 === 0 ? -1 : 1) * 1.2}deg)` }}
+          >
+            <span className="tape -top-3 left-10 rotate-[-5deg]" style={{ width: 90 }} />
+            <span className="inline-block bg-[#013900] px-3 py-1 font-display text-xs tracking-wider text-[#b6fe00]">
+              {item.period.toUpperCase()}
+            </span>
+            <h3 className="font-display mt-3 text-xl leading-tight text-[#101010]">
+              {(item.title).toUpperCase()}
+            </h3>
+            <p className="font-hand text-2xl text-[#a87c4e]">
+              {item.company || item.institution}
+              {item.location ? ` — ${item.location}` : ''}
+            </p>
+            <p className="mt-2 font-medium leading-snug text-[#101010]/75">{item.desc}</p>
+            {item.tech && (
+              <div className="mt-3 flex flex-wrap gap-1.5">
+                {item.tech.map((t) => (
+                  <span key={t} className="border-2 border-[#101010] bg-[#f7d000] px-2 py-0.5 font-display text-[10px] text-[#101010]">
+                    {t.toUpperCase()}
+                  </span>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
 
 export default function Experience() {
+  const rootRef = useRef(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.utils.toArray('.tl-item').forEach((el) => {
+        gsap.from(el, {
+          y: 80,
+          opacity: 0,
+          duration: 0.8,
+          ease: 'back.out(1.4)',
+          scrollTrigger: { trigger: el, start: 'top 88%' },
+        });
+      });
+    }, rootRef);
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <section id="experience" className="relative z-10 px-4 py-24 md:py-32">
-      <div className="mx-auto max-w-4xl">
-        <SectionHeading
-          eyebrow="QUEST LOG"
-          title="QUESTS"
-          desc="Main story quests completed so far."
-          color="green"
-        />
-
-        <div className="relative">
-          <div className="absolute bottom-0 left-[22px] top-0 w-1 bg-black md:left-1/2 md:-translate-x-1/2" />
-
-          {experience.map((item, i) => {
-            const active = i === 0;
-            return (
-              <Reveal
-                key={item.company}
-                className={`relative mb-10 pl-16 md:w-1/2 md:pl-0 ${
-                  i % 2 === 0 ? 'md:pr-12' : 'md:ml-auto md:pl-12'
-                }`}
-              >
-                <div
-                  className={`absolute top-2 flex h-7 w-7 items-center justify-center border-[3px] border-black ${
-                    i % 2 === 0
-                      ? 'left-[10px] md:left-auto md:-right-[14px]'
-                      : 'left-[10px] md:-left-[14px]'
-                  }`}
-                  style={{ background: active ? '#00e436' : '#4a4a60' }}
-                >
-                  <span className="font-pixel text-[8px] text-black">
-                    {active ? '▶' : '✓'}
-                  </span>
-                </div>
-
-                <div className="pixel-panel p-6">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <span
-                      className="font-pixel border-2 border-black px-2.5 py-1.5 text-[8px]"
-                      style={{
-                        background: active ? '#00e436' : '#4a4a60',
-                        color: active ? '#061206' : '#e8e8f0',
-                      }}
-                    >
-                      {active ? '● IN PROGRESS' : '✓ COMPLETED'}
-                    </span>
-                    <span className="font-pixel text-[8px] text-[#9a9ab0]">
-                      {item.period.toUpperCase()}
-                    </span>
-                  </div>
-                  <h3 className="font-pixel mt-4 text-xs leading-relaxed text-white md:text-sm">
-                    {item.title.toUpperCase()}
-                  </h3>
-                  <p className="mt-2 text-xl text-[#ffec27]">{item.company}</p>
-                  <p className="mt-3 text-xl leading-snug text-[#9a9ab0]">{item.desc}</p>
-                  <div className="mt-4 border-t-[3px] border-black/50 pt-3">
-                    <span className="font-pixel text-[8px] text-[#9a9ab0]">
-                      REWARDS:{' '}
-                    </span>
-                    <div className="mt-2 flex flex-wrap gap-2">
-                      {item.tech.map((t) => (
-                        <span key={t} className="pixel-tag px-2.5 py-1 text-lg text-[#c9c9d8]">
-                          +{t}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </Reveal>
-            );
-          })}
+    <>
+      <section id="experience" ref={rootRef} className="relative overflow-hidden bg-[#f5f0e6] py-24 md:py-32">
+        <div className="mx-auto max-w-5xl px-5">
+          <h2 className="text-center font-display text-6xl text-[#013900] md:text-8xl">
+            THE <span className="tape-underline">JOURNEY</span>
+          </h2>
+          <p className="font-hand mt-3 rotate-[1deg] text-center text-3xl text-[#a87c4e]">
+            stuck with me through every role
+          </p>
+          <div className="mt-16">
+            <Timeline items={experience} kind="exp" />
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+
+      <section id="education" className="relative overflow-hidden bg-[#50cbff] py-24 md:py-28">
+        <div className="mx-auto max-w-5xl px-5">
+          <h2 className="text-center font-display text-5xl text-[#101010] md:text-7xl" style={{ textShadow: '4px 4px 0 #fff' }}>
+            SCHOOL OF STICK
+          </h2>
+          <p className="font-hand mt-2 text-center text-3xl text-[#101010]">
+            where the glue was made
+          </p>
+          <div className="mt-14">
+            <Timeline items={education} kind="edu" />
+          </div>
+        </div>
+      </section>
+    </>
   );
 }
