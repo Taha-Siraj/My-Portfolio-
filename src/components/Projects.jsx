@@ -46,7 +46,7 @@ export default function Projects() {
           MEET THE ONES THAT SHIP
         </p>
         <div className="overflow-hidden">
-          <h2 className="pj-title font-display mt-2 text-center text-7xl text-[#013900] md:text-9xl" style={{ textShadow: '5px 5px 0 #fff' }}>
+          <h2 className="pj-title whitespace-nowrap font-display mt-2 text-center text-[16vw] text-[#013900] md:text-9xl" style={{ textShadow: '5px 5px 0 #fff' }}>
             THE WORK
           </h2>
         </div>

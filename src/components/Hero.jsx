@@ -92,8 +92,8 @@ export default function Hero() {
       onMouseMove={onMove}
       className="relative overflow-hidden bg-[#b6fe00] pb-24 pt-32 md:pt-40"
     >
-      {/* scattered sticker badges */}
-      <div className="pointer-events-none absolute inset-0 z-10">
+      {/* scattered sticker badges — desktop only (mobile gets a clean row) */}
+      <div className="pointer-events-none absolute inset-0 z-10 hidden md:block">
         <div className="h-sticker sticker-pop absolute left-[6%] top-[22%] rotate-[-8deg] bg-[#fa8005] px-4 py-2 font-display text-sm text-white">
           OPEN TO WORK
         </div>
@@ -111,14 +111,20 @@ export default function Hero() {
       </div>
 
       <div className="relative z-20 mx-auto max-w-7xl px-5">
-        <div className="h-logo sticker-dark inline-block rotate-[-3deg] px-6 py-3">
-          <span className="font-display text-xl tracking-wide text-white md:text-2xl">
-            TAHA<span className="text-[#b6fe00]">.SIRAJ</span>
-          </span>
-          <span className="tape tape-green -top-4 left-8 rotate-[-6deg]" style={{ width: 90 }} />
+        {/* mobile sticker row — no collisions, no overflow */}
+        <div className="mb-5 flex flex-wrap gap-3 md:hidden">
+          <div className="h-sticker sticker-pop rotate-[-4deg] bg-[#fa8005] px-3 py-1.5 font-display text-xs text-white">
+            ● OPEN TO WORK
+          </div>
+          <div className="h-sticker sticker-pop rotate-[3deg] bg-[#50cbff] px-3 py-1.5 font-display text-xs text-[#101010]">
+            74+ REPOS
+          </div>
+          <div className="h-sticker sticker-pop rotate-[-2deg] bg-[#f7d000] px-3 py-1.5 font-display text-xs text-[#101010]">
+            MERN STACK
+          </div>
         </div>
 
-        <h1 className="h-title font-display mt-6 leading-[0.88] text-[#013900]">
+        <h1 className="h-title font-display leading-[0.88] text-[#013900]">
           <Chars text="TAHA" className="block text-[26vw] md:text-[19vw]" />
           <Chars text="SIRAJ" className="block text-[26vw] text-outline md:text-[19vw]" />
         </h1>

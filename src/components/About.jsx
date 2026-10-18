@@ -35,7 +35,7 @@ export default function About() {
   return (
     <section id="about" ref={rootRef} className="relative overflow-hidden bg-[#f5f0e6] py-24 md:py-32">
       <div className="mx-auto max-w-6xl px-5">
-        <h2 className="ab-title overflow-hidden text-center font-display text-6xl text-[#013900] md:text-8xl">
+        <h2 className="ab-title overflow-hidden whitespace-nowrap text-center font-display text-[11.5vw] text-[#013900] md:text-8xl">
           {'MEET THE DEV'.split('').map((ch, i) => (
             <span key={i} className="h-char2 inline-block">
               {ch === ' ' ? '\u00A0' : ch}

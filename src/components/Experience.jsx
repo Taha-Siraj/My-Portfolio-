@@ -78,7 +78,7 @@ export default function Experience() {
     <>
       <section id="experience" ref={rootRef} className="relative overflow-hidden bg-[#f5f0e6] py-24 md:py-32">
         <div className="mx-auto max-w-5xl px-5">
-          <h2 className="text-center font-display text-6xl text-[#013900] md:text-8xl">
+          <h2 className="whitespace-nowrap text-center font-display text-[10.5vw] text-[#013900] md:text-8xl">
             THE <span className="tape-underline">JOURNEY</span>
           </h2>
           <p className="font-hand mt-3 rotate-[1deg] text-center text-3xl text-[#a87c4e]">
@@ -92,7 +92,7 @@ export default function Experience() {
 
       <section id="education" className="relative overflow-hidden bg-[#50cbff] py-24 md:py-28">
         <div className="mx-auto max-w-5xl px-5">
-          <h2 className="text-center font-display text-5xl text-[#101010] md:text-7xl" style={{ textShadow: '4px 4px 0 #fff' }}>
+          <h2 className="whitespace-nowrap text-center font-display text-[9vw] text-[#101010] md:text-7xl" style={{ textShadow: '4px 4px 0 #fff' }}>
             SCHOOL OF STICK
           </h2>
           <p className="font-hand mt-2 text-center text-3xl text-[#101010]">

@@ -6,6 +6,7 @@ import Ribbon from './components/Ribbon';
 import Manifesto from './components/Manifesto';
 import About from './components/About';
 import Skills from './components/Skills';
+import Services from './components/Services';
 import Chapters from './components/Chapters';
 import Projects from './components/Projects';
 import Experience from './components/Experience';
@@ -36,6 +37,7 @@ function App() {
           rotate={1.5}
         />
         <Skills />
+        <Services />
         <Chapters />
         <Projects />
         <Experience />

@@ -112,7 +112,7 @@ export default function Chapters() {
               CHAPTER {i + 1}
             </span>
             <h2
-              className="ch-word font-display mt-2 whitespace-nowrap text-[20vw] leading-none md:text-[15vw]"
+              className="ch-word font-display mt-2 whitespace-nowrap text-[15vw] leading-none md:text-[15vw]"
               style={{ color: ch.color, textShadow: i === 2 ? '6px 6px 0 #101010' : 'none' }}
             >
               {ch.word}

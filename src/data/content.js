@@ -38,11 +38,11 @@ export const profile = {
     'MERN Stack Developer',
     'Full Stack Engineer',
     'Shopify Developer',
-    'WebGL & Motion Craftsman',
+    'GSAP & Motion Craftsman',
     'UI/UX Enthusiast',
   ],
   tagline:
-    'I build immersive, high-performance web experiences — from full-stack MERN applications to real-time WebGL & 3D interfaces that feel alive.',
+    'I build bold, high-performance web experiences — from full-stack MERN applications to scroll-driven interfaces that feel alive.',
   location: 'Karachi, Pakistan',
   email: 'tahasiraj610@gmail.com',
   whatsapp: '923083067081',
@@ -188,9 +188,9 @@ export const services = [
     tags: ['Shopify', 'Liquid', 'CRO'],
   },
   {
-    title: 'WebGL & 3D Experiences',
-    desc: 'Real-time 3D scenes, shaders and scroll-driven motion with Three.js — portfolios and landing pages that feel alive.',
-    tags: ['Three.js', 'GLSL', 'GSAP'],
+    title: 'Scroll & Motion Design',
+    desc: 'Scroll-choreographed pages with GSAP — pinned chapters, masking reveals and micro-interactions that guide the eye.',
+    tags: ['GSAP', 'ScrollTrigger', 'Motion'],
   },
   {
     title: 'REST API Development',

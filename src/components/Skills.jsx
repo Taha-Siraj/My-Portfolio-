@@ -34,7 +34,7 @@ export default function Skills() {
     <section id="skills" ref={rootRef} className="relative overflow-hidden bg-[#fa8005] py-24 md:py-32">
       <div className="mx-auto max-w-6xl px-5">
         <div className="overflow-hidden text-center">
-          <h2 className="sk-title font-display text-6xl text-white md:text-8xl" style={{ textShadow: '5px 5px 0 #101010' }}>
+          <h2 className="sk-title whitespace-nowrap font-display text-[11.5vw] text-white md:text-8xl" style={{ textShadow: '5px 5px 0 #101010' }}>
             STICKER WALL
           </h2>
         </div>

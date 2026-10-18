@@ -36,7 +36,7 @@ export default function Footer() {
             TAHA<span className="text-[#b6fe00]">.SIRAJ</span>
           </span>
         </div>
-        <h2 className="ft-word font-display mt-8 text-[16vw] leading-[0.9] text-[#b6fe00] md:text-[10vw]">
+        <h2 className="ft-word font-display mt-8 whitespace-nowrap text-[13vw] leading-[0.9] text-[#b6fe00] md:text-[10vw]">
           STICK BY YOU
         </h2>
         <p className="font-hand mt-4 text-3xl text-[#b6fe00]/80">
