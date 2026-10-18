@@ -1,18 +1,17 @@
 import { Link as ScrollLink } from 'react-scroll';
-import { Heart } from 'lucide-react';
 import { socials, profile } from '../data/content';
 
 export default function Footer() {
   return (
-    <footer className="relative z-10 border-t border-white/10 bg-black/50 px-6 py-12 backdrop-blur-xl">
-      <div className="mx-auto flex max-w-6xl flex-col items-center gap-7 text-center">
+    <footer className="relative z-10 border-t-4 border-black bg-[#0a0a10] px-4 py-12">
+      <div className="mx-auto flex max-w-6xl flex-col items-center gap-6 text-center">
         <ScrollLink
           to="home"
           smooth
           duration={700}
-          className="font-display cursor-pointer text-2xl font-extrabold text-white"
+          className="font-pixel cursor-pointer text-sm text-white"
         >
-          TAHA<span className="gradient-text">.SIRAJ</span>
+          TAHA<span className="text-[#00e436]">.SIRAJ</span>
         </ScrollLink>
 
         <div className="flex gap-3">
@@ -23,19 +22,18 @@ export default function Footer() {
               target="_blank"
               rel="noreferrer"
               aria-label={s.label}
-              className="glass flex h-10 w-10 items-center justify-center rounded-full text-white/60 transition-all hover:-translate-y-1 hover:text-white hover:shadow-[0_0_18px_rgba(34,211,238,0.3)]"
+              className="pixel-panel-light flex h-11 w-11 items-center justify-center text-white transition-transform hover:-translate-y-1"
             >
-              <s.icon size={16} />
+              <s.icon size={18} />
             </a>
           ))}
         </div>
 
-        <p className="font-mono2 flex items-center gap-1.5 text-xs text-white/40">
-          Crafted with <Heart size={13} className="text-fuchsia-400" /> using
-          React, Three.js & WebGL
+        <p className="font-pixel animate-blink text-[10px] text-[#ffec27]">
+          ★ TO BE CONTINUED ★
         </p>
-        <p className="font-mono2 text-[11px] text-white/30">
-          © {new Date().getFullYear()} {profile.name}. All rights reserved.
+        <p className="text-xl text-[#4a4a60]">
+          © {new Date().getFullYear()} {profile.name} — built with React + Three.js
         </p>
       </div>
     </footer>

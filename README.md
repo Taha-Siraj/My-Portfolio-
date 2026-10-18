@@ -1,15 +1,26 @@
-# Taha Siraj — WebGL Portfolio
+# Taha Siraj — Game Portfolio
 
-An immersive, real-time **WebGL + 3D** portfolio built with **React**, **Three.js** (custom GLSL shaders), **GSAP** and **Tailwind CSS**.
+A **web-game styled** portfolio: solid colors, pixel UI, zero neon, zero gradients.
+Built with **React**, **Three.js** (low-poly flat-shaded 3D world) and **GSAP**.
 
-## The 3D experience
+## The game world
 
-- **Morphing energy blob** — an icosahedron displaced in real time by 3D simplex-noise shaders, with fresnel glow
-- **10,000-particle starfield** — twinkling, depth-faded, additive-blended
-- **Scroll-reactive dimension** — the camera dollies through space and the whole scene **re-colors per section** (8 palettes)
-- **Giant wireframe torus knot**, orbiting rings, floating geometric shards with parallax
-- **Click anywhere** for a neon shockwave burst
-- Mouse-parallax camera, custom neon cursor, preloader, magnetic CTAs, 3D-tilt project cards
+A real-time low-poly floating island rendered behind the page:
+
+- Night sky with stars, moon, drifting blocky clouds and fireflies
+- Animated water, waving flag, spinning gold coins, a little knight character
+- Orbiting camera that reacts to scroll + mouse
+- **Click anywhere** for a coin fountain burst
+
+## The game UI
+
+- **Preloader** — pixel loading bar with random tips
+- **Hero** — player profile card: LVL, HP/MP/XP bars, character stats
+- **Skills** — skill tree with segmented level bars
+- **Experience** — quest log (in-progress / completed)
+- **Projects** — mission board cards with PLAY + SOURCE buttons
+- **Services** — power-ups, **Education** — training grounds
+- **Contact** — "join my party" transmission form (opens WhatsApp)
 
 ## Run locally
 

@@ -1,73 +1,79 @@
-import { BriefcaseBusiness, CalendarDays } from 'lucide-react';
 import SectionHeading from './SectionHeading';
 import Reveal from './Reveal';
 import { experience } from '../data/content';
 
 export default function Experience() {
   return (
-    <section
-      id="experience"
-      data-palette="3"
-      className="relative z-10 px-6 py-28 md:py-36"
-    >
+    <section id="experience" className="relative z-10 px-4 py-24 md:py-32">
       <div className="mx-auto max-w-4xl">
         <SectionHeading
-          eyebrow="Professional Log"
-          title="Experience"
-          desc="Where I've shipped real products for real users."
+          eyebrow="QUEST LOG"
+          title="QUESTS"
+          desc="Main story quests completed so far."
+          color="green"
         />
 
         <div className="relative">
-          <div className="absolute bottom-0 left-[19px] top-0 w-[2px] bg-gradient-to-b from-cyan-400 via-violet-500 to-fuchsia-500 opacity-40 md:left-1/2 md:-translate-x-1/2" />
+          <div className="absolute bottom-0 left-[22px] top-0 w-1 bg-black md:left-1/2 md:-translate-x-1/2" />
 
-          {experience.map((item, i) => (
-            <Reveal
-              key={item.company}
-              className={`relative mb-12 pl-14 md:w-1/2 md:pl-0 ${
-                i % 2 === 0
-                  ? 'md:pr-14 md:text-right'
-                  : 'md:ml-auto md:pl-14'
-              }`}
-            >
-              <div
-                className={`absolute top-1 flex h-10 w-10 items-center justify-center rounded-full border border-cyan-300/40 bg-[#0a0620] shadow-[0_0_20px_rgba(34,211,238,0.4)] ${
-                  i % 2 === 0
-                    ? 'left-0 md:left-auto md:-right-5'
-                    : 'left-0 md:-left-5'
+          {experience.map((item, i) => {
+            const active = i === 0;
+            return (
+              <Reveal
+                key={item.company}
+                className={`relative mb-10 pl-16 md:w-1/2 md:pl-0 ${
+                  i % 2 === 0 ? 'md:pr-12' : 'md:ml-auto md:pl-12'
                 }`}
               >
-                <BriefcaseBusiness size={17} className="text-cyan-300" />
-              </div>
-
-              <div
-                data-hover
-                className="glass group rounded-3xl p-6 text-left transition-all duration-300 hover:-translate-y-1 hover:border-fuchsia-400/40 hover:shadow-[0_12px_44px_rgba(255,0,255,0.14)] md:p-7"
-              >
-                <span className="font-mono2 inline-flex items-center gap-2 rounded-full border border-cyan-300/25 bg-cyan-400/10 px-3.5 py-1 text-[11px] font-semibold text-cyan-200">
-                  <CalendarDays size={12} />
-                  {item.period}
-                </span>
-                <h3 className="font-display mt-4 text-xl font-bold text-white">
-                  {item.title}
-                </h3>
-                <p className="mt-1 text-sm font-semibold text-fuchsia-300">
-                  {item.company}
-                  <span className="font-normal text-white/40"> — {item.location}</span>
-                </p>
-                <p className="mt-3 text-sm leading-relaxed text-white/60">{item.desc}</p>
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {item.tech.map((t) => (
-                    <span
-                      key={t}
-                      className="font-mono2 rounded-md border border-white/10 bg-white/5 px-2.5 py-1 text-[10px] uppercase tracking-wider text-white/55"
-                    >
-                      {t}
-                    </span>
-                  ))}
+                <div
+                  className={`absolute top-2 flex h-7 w-7 items-center justify-center border-[3px] border-black ${
+                    i % 2 === 0
+                      ? 'left-[10px] md:left-auto md:-right-[14px]'
+                      : 'left-[10px] md:-left-[14px]'
+                  }`}
+                  style={{ background: active ? '#00e436' : '#4a4a60' }}
+                >
+                  <span className="font-pixel text-[8px] text-black">
+                    {active ? '▶' : '✓'}
+                  </span>
                 </div>
-              </div>
-            </Reveal>
-          ))}
+
+                <div className="pixel-panel p-6">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span
+                      className="font-pixel border-2 border-black px-2.5 py-1.5 text-[8px]"
+                      style={{
+                        background: active ? '#00e436' : '#4a4a60',
+                        color: active ? '#061206' : '#e8e8f0',
+                      }}
+                    >
+                      {active ? '● IN PROGRESS' : '✓ COMPLETED'}
+                    </span>
+                    <span className="font-pixel text-[8px] text-[#9a9ab0]">
+                      {item.period.toUpperCase()}
+                    </span>
+                  </div>
+                  <h3 className="font-pixel mt-4 text-xs leading-relaxed text-white md:text-sm">
+                    {item.title.toUpperCase()}
+                  </h3>
+                  <p className="mt-2 text-xl text-[#ffec27]">{item.company}</p>
+                  <p className="mt-3 text-xl leading-snug text-[#9a9ab0]">{item.desc}</p>
+                  <div className="mt-4 border-t-[3px] border-black/50 pt-3">
+                    <span className="font-pixel text-[8px] text-[#9a9ab0]">
+                      REWARDS:{' '}
+                    </span>
+                    <div className="mt-2 flex flex-wrap gap-2">
+                      {item.tech.map((t) => (
+                        <span key={t} className="pixel-tag px-2.5 py-1 text-lg text-[#c9c9d8]">
+                          +{t}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </Reveal>
+            );
+          })}
         </div>
       </div>
     </section>

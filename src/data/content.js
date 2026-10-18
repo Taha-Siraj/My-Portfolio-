@@ -28,6 +28,12 @@ export const profile = {
   name: 'Taha Siraj',
   firstName: 'TAHA',
   lastName: 'SIRAJ',
+  playerClass: 'FULL-STACK DEVELOPER',
+  level: 24,
+  title: 'MERN STACK DEVELOPER',
+  hp: 92,
+  mp: 88,
+  xp: 76,
   roles: [
     'MERN Stack Developer',
     'Full Stack Engineer',

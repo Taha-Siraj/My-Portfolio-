@@ -16,7 +16,7 @@ import Footer from './components/Footer';
 
 function App() {
   return (
-    <div className="relative min-h-screen overflow-x-clip bg-[#030014] text-white">
+    <div className="relative min-h-screen overflow-x-clip bg-[#101018] text-white">
       <Preloader />
       <CustomCursor />
       <WebGLScene />

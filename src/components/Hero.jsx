@@ -1,41 +1,36 @@
 import { useEffect, useRef } from 'react';
 import { Link as ScrollLink } from 'react-scroll';
-import { useTypewriter } from 'react-simple-typewriter';
-import { ArrowDown, FolderGit2, Send } from 'lucide-react';
 import gsap from 'gsap';
 import { profile, socials } from '../data/content';
 
-function Counter({ value, suffix, label }) {
-  const numRef = useRef(null);
-  const wrapRef = useRef(null);
-
+function Bar({ label, value, color, delay = 0 }) {
+  const fillRef = useRef(null);
   useEffect(() => {
-    const el = numRef.current;
-    const obj = { n: 0 };
     const ctx = gsap.context(() => {
-      gsap.to(obj, {
-        n: value,
-        duration: 2,
-        ease: 'power2.out',
-        scrollTrigger: { trigger: wrapRef.current, start: 'top 95%' },
-        onUpdate: () => {
-          el.textContent = Math.round(obj.n) + suffix;
-        },
-      });
+      gsap.fromTo(
+        fillRef.current,
+        { width: '0%' },
+        {
+          width: `${value}%`,
+          duration: 1.6,
+          delay,
+          ease: 'power3.out',
+          scrollTrigger: { trigger: fillRef.current, start: 'top 95%' },
+        }
+      );
     });
     return () => ctx.revert();
-  }, [value, suffix]);
-
+  }, [value, delay]);
   return (
-    <div ref={wrapRef} className="text-center">
-      <div
-        ref={numRef}
-        className="font-display text-3xl font-extrabold text-white md:text-4xl"
-      >
-        0{suffix}
+    <div>
+      <div className="mb-1 flex items-center justify-between">
+        <span className="font-pixel text-[9px] text-[#9a9ab0]">{label}</span>
+        <span className="text-lg leading-none" style={{ color }}>
+          {value}
+        </span>
       </div>
-      <div className="font-mono2 mt-1 text-[11px] uppercase tracking-[0.2em] text-white/45">
-        {label}
+      <div className="stat-bar h-5">
+        <div ref={fillRef} className="stat-fill w-0" style={{ background: color }} />
       </div>
     </div>
   );
@@ -43,27 +38,15 @@ function Counter({ value, suffix, label }) {
 
 export default function Hero() {
   const rootRef = useRef(null);
-  const nameRef = useRef(null);
-  const [text] = useTypewriter({
-    words: profile.roles,
-    loop: true,
-    typeSpeed: 55,
-    deleteSpeed: 32,
-    delaySpeed: 1600,
-  });
 
   useEffect(() => {
     const run = () => {
       const ctx = gsap.context(() => {
         const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
-        tl.from('.h-badge', { opacity: 0, y: -24, duration: 0.6 })
-          .from('.h-line', { opacity: 0, y: 70, duration: 0.9, stagger: 0.12 }, '-=0.3')
-          .from('.h-role', { opacity: 0, y: 24, duration: 0.6 }, '-=0.5')
-          .from('.h-desc', { opacity: 0, y: 24, duration: 0.6 }, '-=0.4')
-          .from('.h-cta', { opacity: 0, y: 24, duration: 0.6, stagger: 0.1 }, '-=0.4')
-          .from('.h-social', { opacity: 0, y: 18, duration: 0.5, stagger: 0.07 }, '-=0.4')
-          .from('.h-stats', { opacity: 0, y: 30, duration: 0.7 }, '-=0.3')
-          .from('.h-scroll', { opacity: 0, duration: 0.8 }, '-=0.3');
+        tl.from('.h-badge', { opacity: 0, y: -20, duration: 0.5 })
+          .from('.h-card', { opacity: 0, y: 60, duration: 0.8 }, '-=0.25')
+          .from('.h-side > *', { opacity: 0, x: 40, duration: 0.6, stagger: 0.12 }, '-=0.5')
+          .from('.h-stats > *', { opacity: 0, y: 24, duration: 0.5, stagger: 0.08 }, '-=0.3');
       }, rootRef);
       return () => ctx.revert();
     };
@@ -79,110 +62,125 @@ export default function Hero() {
     return () => cleanup && cleanup();
   }, []);
 
-  /* 3D tilt on the name */
-  const onTilt = (e) => {
-    const el = nameRef.current;
-    if (!el) return;
-    const r = el.getBoundingClientRect();
-    const px = (e.clientX - r.left) / r.width - 0.5;
-    const py = (e.clientY - r.top) / r.height - 0.5;
-    el.style.transform = `perspective(900px) rotateY(${px * 10}deg) rotateX(${-py * 10}deg)`;
-  };
-  const onTiltEnd = () => {
-    if (nameRef.current)
-      nameRef.current.style.transform = 'perspective(900px) rotateY(0deg) rotateX(0deg)';
-  };
-
   return (
     <section
       id="home"
-      data-palette="0"
       ref={rootRef}
-      className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6 pb-16 pt-28"
+      className="relative flex min-h-screen flex-col items-center justify-center px-4 pb-20 pt-32 md:pt-36"
     >
-      <div className="relative z-10 mx-auto w-full max-w-5xl text-center">
-        <div className="h-badge mb-6 inline-flex items-center gap-2.5 rounded-full border border-cyan-400/30 bg-cyan-400/5 px-5 py-2 backdrop-blur-md">
-          <span className="animate-blink-dot h-2 w-2 rounded-full bg-cyan-300" />
-          <span className="font-mono2 text-[11px] uppercase tracking-[0.25em] text-cyan-200">
-            Available for freelance work
+      <div className="relative z-10 mx-auto w-full max-w-6xl">
+        <div className="h-badge mb-8 text-center">
+          <span className="font-pixel animate-blink text-[10px] text-[#ffec27] md:text-xs">
+            ▼ PRESS START ▼
           </span>
         </div>
 
-        <div
-          ref={nameRef}
-          onMouseMove={onTilt}
-          onMouseLeave={onTiltEnd}
-          className="transition-transform duration-200 ease-out will-change-transform"
-          data-hover
-        >
-          <h1 className="h-line font-display hero-shine text-[19vw] font-extrabold leading-[0.9] tracking-tight text-white sm:text-[15vw] lg:text-[10.5rem]">
-            {profile.firstName}
-          </h1>
-          <h1 className="h-line font-display hero-shine gradient-text text-[19vw] font-extrabold leading-[0.9] tracking-tight sm:text-[15vw] lg:text-[10.5rem]">
-            {profile.lastName}
-          </h1>
+        <div className="grid items-start gap-8 lg:grid-cols-5">
+          {/* PLAYER CARD */}
+          <div className="h-card pixel-panel p-6 md:p-8 lg:col-span-3">
+            <div className="flex items-center justify-between">
+              <span className="font-pixel bg-[#00e436] px-3 py-1.5 text-[9px] text-[#061206] border-2 border-black">
+                PLAYER 1
+              </span>
+              <span className="font-pixel text-[9px] text-[#9a9ab0]">
+                LVL {profile.level}
+              </span>
+            </div>
+
+            <h1 className="h-pixel mt-6 text-3xl leading-tight text-white sm:text-4xl md:text-5xl">
+              {profile.firstName}
+              <br />
+              <span className="text-[#00e436]">{profile.lastName}</span>
+            </h1>
+
+            <div className="font-pixel mt-4 text-[10px] leading-relaxed text-[#29adff] md:text-xs">
+              {'<'} {profile.title} {'>'}
+            </div>
+
+            <p className="mt-5 max-w-xl text-xl leading-snug text-[#c9c9d8] md:text-2xl">
+              {profile.tagline}
+            </p>
+
+            <div className="mt-7 grid gap-4 sm:grid-cols-3">
+              <Bar label="HP / HEALTH" value={profile.hp} color="#ff004d" />
+              <Bar label="MP / MANA" value={profile.mp} color="#29adff" delay={0.15} />
+              <Bar label="XP / CAREER" value={profile.xp} color="#00e436" delay={0.3} />
+            </div>
+
+            <div className="mt-8 flex flex-wrap gap-4">
+              <ScrollLink
+                to="projects"
+                smooth
+                duration={700}
+                offset={-80}
+                className="pixel-btn pixel-btn-green font-pixel cursor-pointer px-6 py-4 text-[11px]"
+              >
+                ▶ START QUEST
+              </ScrollLink>
+              <ScrollLink
+                to="contact"
+                smooth
+                duration={700}
+                offset={-80}
+                className="pixel-btn pixel-btn-ghost font-pixel cursor-pointer px-6 py-4 text-[11px]"
+              >
+                JOIN PARTY
+              </ScrollLink>
+            </div>
+          </div>
+
+          {/* SIDE PANEL */}
+          <div className="h-side flex flex-col gap-6 lg:col-span-2">
+            <div className="pixel-panel p-6">
+              <div className="font-pixel mb-4 text-[10px] text-[#ffec27]">
+                ▣ CHARACTER STATS
+              </div>
+              <div className="grid grid-cols-2 gap-x-6 gap-y-3">
+                {profile.stats.map((s) => (
+                  <div key={s.label} className="border-b-2 border-black/40 pb-2">
+                    <div className="font-pixel text-lg text-white">
+                      {s.value}
+                      {s.suffix}
+                    </div>
+                    <div className="font-pixel mt-1 text-[8px] leading-relaxed text-[#9a9ab0]">
+                      {s.label.toUpperCase()}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="pixel-panel p-6">
+              <div className="font-pixel mb-4 text-[10px] text-[#29adff]">
+                ▣ SOCIAL LINKS
+              </div>
+              <div className="flex flex-wrap gap-3">
+                {socials.map((s) => (
+                  <a
+                    key={s.label}
+                    href={s.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label={s.label}
+                    title={s.label}
+                    className="pixel-panel-light flex h-12 w-12 items-center justify-center text-white transition-transform hover:-translate-y-1"
+                    style={{ color: '#f4f4f4' }}
+                  >
+                    <s.icon size={20} />
+                  </a>
+                ))}
+              </div>
+              <div className="mt-4 text-xl text-[#9a9ab0]">
+                <span className="text-[#00e436]">▸</span> {profile.location}
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div className="h-role font-mono2 mt-6 text-base text-cyan-200 md:text-xl">
-          <span className="text-white/40">&gt;_</span> {text}
-          <span className="animate-blink-dot ml-1 inline-block h-4 w-[3px] translate-y-[2px] bg-cyan-300" />
-        </div>
-
-        <p className="h-desc mx-auto mt-5 max-w-2xl text-sm leading-relaxed text-white/60 md:text-base">
-          {profile.tagline}
-        </p>
-
-        <div className="mt-9 flex flex-wrap items-center justify-center gap-4">
-          <ScrollLink
-            to="projects"
-            smooth
-            duration={700}
-            offset={-70}
-            className="h-cta group inline-flex cursor-pointer items-center gap-2 rounded-full bg-gradient-to-r from-cyan-400 via-violet-500 to-fuchsia-500 px-8 py-3.5 text-sm font-bold text-[#030014] shadow-[0_0_36px_rgba(34,211,238,0.35)] transition-transform hover:scale-105"
-          >
-            <FolderGit2 size={17} />
-            View My Work
-          </ScrollLink>
-          <ScrollLink
-            to="contact"
-            smooth
-            duration={700}
-            offset={-70}
-            className="h-cta glass inline-flex cursor-pointer items-center gap-2 rounded-full px-8 py-3.5 text-sm font-bold text-white transition-all hover:border-cyan-300/50 hover:shadow-[0_0_28px_rgba(34,211,238,0.25)]"
-          >
-            <Send size={16} />
-            Let's Talk
-          </ScrollLink>
-        </div>
-
-        <div className="mt-8 flex items-center justify-center gap-3">
-          {socials.map((s) => (
-            <a
-              key={s.label}
-              href={s.href}
-              target="_blank"
-              rel="noreferrer"
-              aria-label={s.label}
-              className="h-social glass flex h-11 w-11 items-center justify-center rounded-full text-white/70 transition-all hover:-translate-y-1 hover:border-fuchsia-400/50 hover:text-white hover:shadow-[0_0_20px_rgba(255,0,255,0.35)]"
-            >
-              <s.icon size={18} />
-            </a>
-          ))}
-        </div>
-
-        <div className="h-stats glass mx-auto mt-12 grid max-w-3xl grid-cols-2 gap-6 rounded-3xl px-6 py-7 sm:grid-cols-4">
-          {profile.stats.map((s) => (
-            <Counter key={s.label} value={s.value} suffix={s.suffix} label={s.label} />
-          ))}
-        </div>
-      </div>
-
-      <div className="h-scroll absolute bottom-7 left-1/2 z-10 -translate-x-1/2">
-        <div className="flex h-12 w-7 items-start justify-center rounded-full border border-white/25 p-2">
-          <div
-            className="h-2.5 w-1 rounded-full bg-cyan-300"
-            style={{ animation: 'scroll-wheel 1.8s ease-in-out infinite' }}
-          />
+        <div className="h-stats mt-10 flex justify-center">
+          <div className="animate-bounce-soft font-pixel text-[10px] text-[#9a9ab0]">
+            ▼ SCROLL ▼
+          </div>
         </div>
       </div>
     </section>

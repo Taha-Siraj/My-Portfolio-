@@ -3,14 +3,12 @@ import { marqueeItems } from '../data/content';
 export default function Marquee() {
   const row = [...marqueeItems, ...marqueeItems];
   return (
-    <section data-palette="1" className="relative z-10 overflow-hidden border-y border-white/10 bg-black/40 py-5 backdrop-blur-md">
-      <div className="animate-marquee flex w-max items-center gap-10 whitespace-nowrap">
+    <section className="relative z-10 overflow-hidden border-y-4 border-black bg-[#00e436] py-3">
+      <div className="animate-marquee flex w-max items-center gap-8 whitespace-nowrap">
         {row.map((item, i) => (
-          <span key={i} className="flex items-center gap-10">
-            <span className="font-display text-lg font-bold uppercase tracking-widest text-white/75">
-              {item}
-            </span>
-            <span className="gradient-text text-xl">✦</span>
+          <span key={i} className="flex items-center gap-8">
+            <span className="font-pixel text-[11px] text-[#061206]">{item.toUpperCase()}</span>
+            <span className="inline-block h-3 w-3 rotate-45 border-2 border-black bg-[#ffec27]" />
           </span>
         ))}
       </div>

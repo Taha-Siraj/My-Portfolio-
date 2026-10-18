@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Send, Loader2, CheckCircle2 } from 'lucide-react';
 import SectionHeading from './SectionHeading';
 import Reveal from './Reveal';
 import { profile, socials, contactInfo } from '../data/content';
@@ -25,76 +24,63 @@ export default function Contact() {
   };
 
   const inputCls =
-    'w-full rounded-2xl border border-white/10 bg-white/5 px-5 py-3.5 text-sm text-white placeholder-white/30 outline-none backdrop-blur-md transition-all focus:border-cyan-300/60 focus:bg-white/10 focus:shadow-[0_0_24px_rgba(34,211,238,0.15)]';
+    'w-full border-4 border-black bg-[#0a0a10] px-4 py-3 text-2xl text-white placeholder-[#4a4a60] outline-none transition-colors focus:border-[#00e436]';
 
   return (
-    <section
-      id="contact"
-      data-palette="7"
-      className="relative z-10 px-6 py-28 md:py-36"
-    >
+    <section id="contact" className="relative z-10 px-4 py-24 md:py-32">
       <div className="mx-auto max-w-6xl">
         <SectionHeading
-          eyebrow="Transmission"
-          title="Let's Build Something Epic"
-          desc="Have a project in mind? My inbox — and my DMs — are always open."
+          eyebrow="MULTIPLAYER"
+          title="JOIN MY PARTY"
+          desc="Looking for a developer for your next quest? Send a transmission."
+          color="green"
         />
 
-        <div className="grid gap-10 lg:grid-cols-5">
+        <div className="grid gap-8 lg:grid-cols-5">
           <div className="lg:col-span-2">
             <Reveal>
-              <h3 className="font-display text-2xl font-bold text-white">
-                Get in <span className="gradient-text">touch</span>
-              </h3>
-              <p className="mt-3 text-sm leading-relaxed text-white/55">
-                Whether it's a full-stack build, a Shopify store, or a wild
-                WebGL idea — let's talk. I usually reply within 24 hours.
-              </p>
+              <div className="pixel-panel p-6">
+                <div className="font-pixel text-[10px] text-[#00e436]">
+                  ▸ PARTY INVITE
+                </div>
+                <p className="mt-4 text-2xl leading-snug text-[#c9c9d8]">
+                  Whether it's a full-stack build, a Shopify store, or a wild
+                  WebGL idea — let's team up. I usually reply within 24 hours.
+                </p>
+              </div>
             </Reveal>
 
-            <div className="mt-7 space-y-4">
+            <div className="mt-6 space-y-4">
               {contactInfo.map((c, i) => (
-                <Reveal key={c.label} delay={i * 0.08}>
-                  {c.href ? (
-                    <a
-                      href={c.href}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="glass group flex items-center gap-4 rounded-2xl p-4 transition-all hover:-translate-y-0.5 hover:border-cyan-300/40"
-                    >
-                      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-cyan-300/25 bg-cyan-400/10 text-cyan-300 transition-transform group-hover:scale-110">
-                        <c.icon size={19} />
+                <Reveal key={c.label} delay={i * 0.07}>
+                  <div className="pixel-panel flex items-center gap-4 p-4">
+                    <span className="flex h-12 w-12 shrink-0 items-center justify-center border-[3px] border-black bg-[#00e436] text-[#061206]">
+                      <c.icon size={22} />
+                    </span>
+                    <span className="min-w-0">
+                      <span className="font-pixel block text-[8px] text-[#9a9ab0]">
+                        {c.label.toUpperCase()}
                       </span>
-                      <span>
-                        <span className="font-mono2 block text-[10px] uppercase tracking-[0.2em] text-white/40">
-                          {c.label}
-                        </span>
-                        <span className="block text-sm font-semibold text-white">
+                      {c.href ? (
+                        <a
+                          href={c.href}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="block truncate text-xl text-white hover:text-[#ffec27]"
+                        >
                           {c.value}
-                        </span>
-                      </span>
-                    </a>
-                  ) : (
-                    <div className="glass flex items-center gap-4 rounded-2xl p-4">
-                      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-cyan-300/25 bg-cyan-400/10 text-cyan-300">
-                        <c.icon size={19} />
-                      </span>
-                      <span>
-                        <span className="font-mono2 block text-[10px] uppercase tracking-[0.2em] text-white/40">
-                          {c.label}
-                        </span>
-                        <span className="block text-sm font-semibold text-white">
-                          {c.value}
-                        </span>
-                      </span>
-                    </div>
-                  )}
+                        </a>
+                      ) : (
+                        <span className="block text-xl text-white">{c.value}</span>
+                      )}
+                    </span>
+                  </div>
                 </Reveal>
               ))}
             </div>
 
-            <Reveal delay={0.25}>
-              <div className="mt-7 flex gap-3">
+            <Reveal delay={0.2}>
+              <div className="mt-6 flex gap-3">
                 {socials.map((s) => (
                   <a
                     key={s.label}
@@ -102,68 +88,52 @@ export default function Contact() {
                     target="_blank"
                     rel="noreferrer"
                     aria-label={s.label}
-                    className="glass flex h-11 w-11 items-center justify-center rounded-full text-white/70 transition-all hover:-translate-y-1 hover:border-fuchsia-400/50 hover:text-white hover:shadow-[0_0_20px_rgba(255,0,255,0.35)]"
+                    className="pixel-panel-light flex h-12 w-12 items-center justify-center text-white transition-transform hover:-translate-y-1"
                   >
-                    <s.icon size={18} />
+                    <s.icon size={20} />
                   </a>
                 ))}
               </div>
             </Reveal>
           </div>
 
-          <Reveal delay={0.15} className="lg:col-span-3">
-            <form
-              onSubmit={handleSubmit}
-              className="glass relative overflow-hidden rounded-[1.75rem] p-7 md:p-9"
-            >
-              <div className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full bg-fuchsia-500/15 blur-3xl" />
-              <div className="pointer-events-none absolute -bottom-16 -left-16 h-56 w-56 rounded-full bg-cyan-400/15 blur-3xl" />
-
-              <div className="relative grid gap-5 sm:grid-cols-2">
-                <input name="name" required placeholder="Your name" className={inputCls} />
+          <Reveal delay={0.12} className="lg:col-span-3">
+            <form onSubmit={handleSubmit} className="pixel-panel p-6 md:p-8">
+              <div className="font-pixel mb-6 text-[10px] text-[#ffec27]">
+                ▸ NEW MESSAGE
+              </div>
+              <div className="grid gap-5 sm:grid-cols-2">
+                <input name="name" required placeholder="YOUR NAME" className={inputCls} />
                 <input
                   name="email"
                   type="email"
                   required
-                  placeholder="Your email"
+                  placeholder="YOUR EMAIL"
                   className={inputCls}
                 />
                 <input
                   name="subject"
                   required
-                  placeholder="Subject"
+                  placeholder="QUEST SUBJECT"
                   className={`${inputCls} sm:col-span-2`}
                 />
                 <textarea
                   name="message"
                   required
                   rows={5}
-                  placeholder="Tell me about your project..."
+                  placeholder="DESCRIBE YOUR QUEST..."
                   className={`${inputCls} resize-none sm:col-span-2`}
                 />
               </div>
-
               <button
                 type="submit"
                 disabled={sending}
-                className="relative mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-cyan-400 via-violet-500 to-fuchsia-500 px-8 py-4 text-sm font-bold text-[#030014] shadow-[0_0_36px_rgba(34,211,238,0.3)] transition-transform hover:scale-[1.02] disabled:opacity-70 sm:w-auto"
+                className="pixel-btn pixel-btn-green font-pixel mt-6 w-full px-8 py-4 text-[11px] disabled:opacity-60 sm:w-auto"
               >
-                {sending ? (
-                  <>
-                    <Loader2 size={17} className="animate-spin" /> Opening WhatsApp...
-                  </>
-                ) : sent ? (
-                  <>
-                    <CheckCircle2 size={17} /> Message Sent!
-                  </>
-                ) : (
-                  <>
-                    <Send size={16} /> Send Message
-                  </>
-                )}
+                {sending ? 'SENDING...' : sent ? '✓ SENT!' : '▶ SEND TRANSMISSION'}
               </button>
-              <p className="font-mono2 relative mt-4 text-[11px] text-white/35">
-                {'//'} messages open directly in WhatsApp
+              <p className="mt-4 text-xl text-[#4a4a60]">
+                {'//'} opens WhatsApp with your message
               </p>
             </form>
           </Reveal>

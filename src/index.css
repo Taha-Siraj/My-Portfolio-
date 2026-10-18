@@ -2,12 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ============ GAME PALETTE (solid colors, no neon, no gradients) ============ */
 :root {
-  --void: #030014;
-  --cyan: #22d3ee;
-  --magenta: #f0f;
-  --violet: #8b5cf6;
-  --amber: #fbbf24;
+  --void: #101018;
+  --panel: #1d1d2b;
+  --panel-2: #262637;
+  --ink: #0a0a10;
+  --green: #00e436;
+  --blue: #29adff;
+  --yellow: #ffec27;
+  --red: #ff004d;
+  --orange: #ff7f27;
+  --purple: #a06ee1;
+  --text: #f4f4f4;
+  --muted: #9a9ab0;
 }
 
 html {
@@ -15,71 +23,127 @@ html {
 }
 
 body {
-  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-family: 'VT323', monospace;
+  font-size: 20px;
   background: var(--void);
-  color: #e8e8f0;
+  color: var(--text);
   overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
+  -webkit-font-smoothing: none;
 }
 
-.font-display {
-  font-family: 'Syne', sans-serif;
-}
-.font-mono2 {
-  font-family: 'JetBrains Mono', monospace;
+.font-pixel {
+  font-family: 'Press Start 2P', monospace;
 }
 
 ::selection {
-  background: rgba(34, 211, 238, 0.35);
-  color: #fff;
+  background: var(--green);
+  color: #061206;
 }
 
 ::-webkit-scrollbar {
-  width: 9px;
+  width: 12px;
 }
 ::-webkit-scrollbar-track {
-  background: #05001a;
+  background: #0a0a10;
 }
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #22d3ee, #8b5cf6, #f0f);
-  border-radius: 99px;
+  background: var(--green);
+  border: 3px solid #0a0a10;
 }
 
-/* ---------- glass + glow helpers ---------- */
-.glass {
-  background: rgba(255, 255, 255, 0.035);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  border: 1px solid rgba(255, 255, 255, 0.09);
+/* ============ pixel panels & buttons ============ */
+.pixel-panel {
+  background: var(--panel);
+  border: 4px solid #000;
+  box-shadow:
+    inset -4px -4px 0 0 rgba(0, 0, 0, 0.35),
+    inset 4px 4px 0 0 rgba(255, 255, 255, 0.07);
 }
 
-.text-glow-cyan {
-  text-shadow: 0 0 24px rgba(34, 211, 238, 0.55), 0 0 80px rgba(34, 211, 238, 0.25);
-}
-.text-glow-magenta {
-  text-shadow: 0 0 24px rgba(255, 0, 255, 0.5), 0 0 80px rgba(255, 0, 255, 0.25);
-}
-
-.gradient-text {
-  background: linear-gradient(100deg, #22d3ee 10%, #8b5cf6 45%, #f0f 75%, #22d3ee 105%);
-  background-size: 220% auto;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  animation: gradient-pan 7s linear infinite;
+.pixel-panel-light {
+  background: var(--panel-2);
+  border: 4px solid #000;
+  box-shadow:
+    inset -4px -4px 0 0 rgba(0, 0, 0, 0.3),
+    inset 4px 4px 0 0 rgba(255, 255, 255, 0.08);
 }
 
-.text-stroke {
-  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.28);
-  color: transparent;
+.pixel-btn {
+  font-family: 'Press Start 2P', monospace;
+  border: 4px solid #000;
+  box-shadow: 0 6px 0 0 #000;
+  transition: transform 0.08s ease, box-shadow 0.08s ease;
+  image-rendering: pixelated;
+}
+.pixel-btn:hover {
+  transform: translateY(2px);
+  box-shadow: 0 4px 0 0 #000;
+}
+.pixel-btn:active {
+  transform: translateY(6px);
+  box-shadow: 0 0 0 0 #000;
 }
 
-/* ---------- keyframes ---------- */
-@keyframes gradient-pan {
-  to {
-    background-position: 220% center;
+.pixel-btn-green {
+  background: var(--green);
+  color: #061206;
+}
+.pixel-btn-blue {
+  background: var(--blue);
+  color: #06121c;
+}
+.pixel-btn-yellow {
+  background: var(--yellow);
+  color: #1c1a06;
+}
+.pixel-btn-ghost {
+  background: var(--panel-2);
+  color: var(--text);
+}
+
+.pixel-tag {
+  font-family: 'VT323', monospace;
+  border: 2px solid #000;
+  background: #12121c;
+  box-shadow: inset 2px 2px 0 0 rgba(255, 255, 255, 0.06);
+}
+
+/* ============ bars ============ */
+.stat-bar {
+  border: 3px solid #000;
+  background: #0a0a10;
+  box-shadow: inset 2px 2px 0 0 rgba(0, 0, 0, 0.6);
+}
+.stat-fill {
+  height: 100%;
+}
+
+.seg {
+  border: 2px solid #000;
+  background: #0a0a10;
+}
+.seg.on {
+  background: var(--green);
+}
+.seg.on-blue {
+  background: var(--blue);
+}
+
+/* ============ animations ============ */
+@keyframes blink-hard {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
   }
 }
+.animate-blink {
+  animation: blink-hard 1.1s steps(1) infinite;
+}
+
 @keyframes marquee-x {
   from {
     transform: translateX(0);
@@ -88,62 +152,40 @@ body {
     transform: translateX(-50%);
   }
 }
+.animate-marquee {
+  animation: marquee-x 30s linear infinite;
+}
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
 @keyframes float-y {
   0%,
   100% {
     transform: translateY(0);
   }
   50% {
-    transform: translateY(-14px);
+    transform: translateY(-10px);
   }
-}
-@keyframes spin-slow {
-  to {
-    transform: rotate(360deg);
-  }
-}
-@keyframes blink-dot {
-  0%,
-  100% {
-    opacity: 1;
-    box-shadow: 0 0 12px #22d3ee;
-  }
-  50% {
-    opacity: 0.35;
-    box-shadow: none;
-  }
-}
-@keyframes scroll-wheel {
-  0% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  70% {
-    opacity: 0;
-    transform: translateY(14px);
-  }
-  100% {
-    opacity: 0;
-  }
-}
-
-.animate-marquee {
-  animation: marquee-x 26s linear infinite;
-}
-.animate-marquee:hover {
-  animation-play-state: paused;
 }
 .animate-float {
-  animation: float-y 6s ease-in-out infinite;
-}
-.animate-spin-slower {
-  animation: spin-slow 24s linear infinite;
-}
-.animate-blink-dot {
-  animation: blink-dot 1.8s ease-in-out infinite;
+  animation: float-y 5s ease-in-out infinite;
 }
 
-/* ---------- custom cursor ---------- */
+@keyframes bounce-soft {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(8px);
+  }
+}
+.animate-bounce-soft {
+  animation: bounce-soft 1.6s ease-in-out infinite;
+}
+
+/* ============ custom cursor: pixel crosshair ============ */
 @media (pointer: fine) {
   .cursor-dot,
   .cursor-ring {
@@ -152,27 +194,24 @@ body {
     left: 0;
     pointer-events: none;
     z-index: 9999;
-    border-radius: 50%;
     transform: translate(-50%, -50%);
   }
   .cursor-dot {
     width: 8px;
     height: 8px;
-    background: #22d3ee;
-    box-shadow: 0 0 12px #22d3ee;
+    background: var(--yellow);
+    border: 2px solid #000;
   }
   .cursor-ring {
-    width: 38px;
-    height: 38px;
-    border: 1.5px solid rgba(34, 211, 238, 0.65);
-    transition: width 0.25s ease, height 0.25s ease, border-color 0.25s ease,
-      background 0.25s ease;
+    width: 30px;
+    height: 30px;
+    border: 3px solid var(--green);
+    transition: width 0.2s ease, height 0.2s ease, border-color 0.2s ease;
   }
   .cursor-ring.is-hover {
-    width: 64px;
-    height: 64px;
-    border-color: rgba(255, 0, 255, 0.8);
-    background: rgba(255, 0, 255, 0.08);
+    width: 44px;
+    height: 44px;
+    border-color: var(--yellow);
   }
 }
 @media (pointer: coarse) {
@@ -182,56 +221,35 @@ body {
   }
 }
 
-/* ---------- 3D tilt cards ---------- */
+/* ============ 3D tilt cards (game cards) ============ */
 .tilt-scene {
   perspective: 1100px;
 }
 .tilt-card {
   transform-style: preserve-3d;
-  transition: transform 0.18s ease-out, box-shadow 0.3s ease;
+  transition: transform 0.18s ease-out;
   will-change: transform;
 }
 .tilt-inner {
-  transform: translateZ(46px);
+  transform: translateZ(40px);
   transform-style: preserve-3d;
 }
 
-/* vignette over the webgl canvas */
+/* vignette over the webgl canvas (solid, subtle) */
 .webgl-vignette {
   background: radial-gradient(
     ellipse at center,
-    transparent 42%,
-    rgba(3, 0, 20, 0.55) 78%,
-    rgba(3, 0, 20, 0.92) 100%
+    transparent 55%,
+    rgba(10, 10, 18, 0.5) 100%
   );
 }
 
-/* scanline shimmer for hero name */
-.hero-shine {
-  position: relative;
+/* chunky headings */
+.h-pixel {
+  font-family: 'Press Start 2P', monospace;
+  text-shadow: 4px 4px 0 #000;
 }
-.hero-shine::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    105deg,
-    transparent 40%,
-    rgba(255, 255, 255, 0.28) 50%,
-    transparent 60%
-  );
-  background-size: 250% 100%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  animation: shine-sweep 4.5s ease-in-out infinite;
-  pointer-events: none;
-}
-@keyframes shine-sweep {
-  0%,
-  55% {
-    background-position: 120% 0;
-  }
-  100% {
-    background-position: -120% 0;
-  }
+.h-pixel-sm {
+  font-family: 'Press Start 2P', monospace;
+  text-shadow: 3px 3px 0 #000;
 }

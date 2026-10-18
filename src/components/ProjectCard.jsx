@@ -1,5 +1,4 @@
 import { useRef } from 'react';
-import { ExternalLink, Github, Star } from 'lucide-react';
 
 export default function ProjectCard({ project, index }) {
   const cardRef = useRef(null);
@@ -10,7 +9,7 @@ export default function ProjectCard({ project, index }) {
     const r = el.getBoundingClientRect();
     const px = (e.clientX - r.left) / r.width - 0.5;
     const py = (e.clientY - r.top) / r.height - 0.5;
-    el.style.transform = `perspective(1100px) rotateY(${px * 9}deg) rotateX(${-py * 9}deg) translateY(-6px)`;
+    el.style.transform = `perspective(1100px) rotateY(${px * 7}deg) rotateX(${-py * 7}deg) translateY(-5px)`;
   };
   const onLeave = () => {
     if (cardRef.current)
@@ -24,66 +23,59 @@ export default function ProjectCard({ project, index }) {
         ref={cardRef}
         onMouseMove={onMove}
         onMouseLeave={onLeave}
-        data-hover
-        className={`tilt-card glass group relative flex h-full flex-col overflow-hidden rounded-[1.75rem] transition-shadow duration-300 hover:shadow-[0_20px_60px_rgba(139,92,246,0.22)] ${
-          project.featured ? 'border-fuchsia-400/30' : ''
-        }`}
+        className="tilt-card pixel-panel flex h-full flex-col overflow-hidden"
       >
-        <div className="relative h-52 shrink-0 overflow-hidden md:h-60">
+        <div className="relative h-48 shrink-0 overflow-hidden border-b-4 border-black bg-[#0a0a10] md:h-56">
           <img
             src={project.image}
             alt={project.title}
             loading="lazy"
-            className="h-full w-full object-cover object-top transition-transform duration-700 group-hover:scale-110"
+            className="h-full w-full object-cover object-top"
             onError={(e) => {
               e.currentTarget.style.display = 'none';
             }}
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0a0620] via-transparent to-transparent" />
-          <span className="font-mono2 absolute left-4 top-4 rounded-full border border-white/15 bg-black/55 px-3 py-1 text-[11px] font-semibold tracking-widest text-cyan-200 backdrop-blur-md">
-            {String(index + 1).padStart(2, '0')}
+          <span className="font-pixel absolute left-3 top-3 border-[3px] border-black bg-[#29adff] px-2.5 py-1.5 text-[9px] text-[#06121c]">
+            M-{String(index + 1).padStart(2, '0')}
           </span>
           {project.featured && (
-            <span className="absolute right-4 top-4 inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-amber-400 to-fuchsia-500 px-3 py-1 text-[11px] font-bold text-[#030014]">
-              <Star size={12} /> FEATURED
+            <span className="font-pixel absolute right-3 top-3 border-[3px] border-black bg-[#ffec27] px-2.5 py-1.5 text-[9px] text-[#1c1a06]">
+              ★ FEATURED
             </span>
           )}
         </div>
 
-        <div className="tilt-inner flex flex-1 flex-col p-6 md:p-7">
-          <h3 className="font-display text-xl font-bold leading-snug text-white transition-colors group-hover:text-cyan-200">
-            {project.title}
+        <div className="tilt-inner flex flex-1 flex-col p-5 md:p-6">
+          <h3 className="font-pixel text-[11px] leading-relaxed text-white md:text-xs">
+            {project.title.toUpperCase()}
           </h3>
-          <p className="mt-3 flex-1 text-sm leading-relaxed text-white/55">
+          <p className="mt-3 flex-1 text-xl leading-snug text-[#9a9ab0]">
             {project.description}
           </p>
-          <div className="mt-5 flex flex-wrap gap-2">
+          <div className="mt-4 flex flex-wrap gap-2">
             {project.tech.map((t) => (
-              <span
-                key={t}
-                className="font-mono2 rounded-lg border border-violet-400/20 bg-violet-500/10 px-2.5 py-1 text-[10px] uppercase tracking-wider text-violet-200"
-              >
+              <span key={t} className="pixel-tag px-2 py-0.5 text-lg text-[#c9c9d8]">
                 {t}
               </span>
             ))}
           </div>
-          <div className="mt-6 flex gap-3">
+          <div className="mt-5 flex gap-3">
             <a
               href={project.liveLink}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-gradient-to-r from-cyan-400 to-violet-500 px-5 py-2.5 text-[13px] font-bold text-[#030014] transition-transform hover:scale-[1.03]"
+              className="pixel-btn pixel-btn-green font-pixel flex-1 px-4 py-3 text-center text-[10px]"
             >
-              <ExternalLink size={15} /> Live Demo
+              ▶ PLAY
             </a>
             <a
               href={project.githubLink}
               target="_blank"
               rel="noreferrer"
-              aria-label="GitHub repository"
-              className="glass inline-flex items-center justify-center rounded-full px-4 py-2.5 text-white/80 transition-all hover:border-white/30 hover:text-white"
+              aria-label="Source code"
+              className="pixel-btn pixel-btn-ghost font-pixel px-4 py-3 text-center text-[10px]"
             >
-              <Github size={17} />
+              {'</>'}
             </a>
           </div>
         </div>

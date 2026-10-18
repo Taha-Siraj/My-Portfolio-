@@ -1,54 +1,43 @@
-import { Code2, ShoppingBag, Boxes, Server, Palette, Gauge } from 'lucide-react';
 import SectionHeading from './SectionHeading';
 import Reveal from './Reveal';
 import { services } from '../data/content';
 
-const ICONS = [Code2, ShoppingBag, Boxes, Server, Palette, Gauge];
+const COLORS = ['#00e436', '#29adff', '#ffec27', '#ff004d', '#a06ee1', '#ff7f27'];
 
 export default function Services() {
   return (
-    <section
-      id="services"
-      data-palette="5"
-      className="relative z-10 px-6 py-28 md:py-36"
-    >
+    <section id="services" className="relative z-10 px-4 py-24 md:py-32">
       <div className="mx-auto max-w-6xl">
         <SectionHeading
-          eyebrow="What I Offer"
-          title="Services"
-          desc="From idea to production — I handle the full journey."
+          eyebrow="POWER-UPS"
+          title="ABILITIES"
+          desc="Buffs I can apply to your project."
+          color="blue"
         />
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {services.map((s, i) => {
-            const Icon = ICONS[i % ICONS.length];
-            return (
-              <Reveal key={s.title} delay={(i % 3) * 0.1} className="h-full">
+          {services.map((s, i) => (
+            <Reveal key={s.title} delay={(i % 3) * 0.08} className="h-full">
+              <div className="pixel-panel h-full p-6 transition-transform duration-150 hover:-translate-y-1.5">
                 <div
-                  data-hover
-                  className="glass group relative h-full overflow-hidden rounded-[1.75rem] p-7 transition-all duration-300 hover:-translate-y-1.5 hover:border-cyan-300/40 hover:shadow-[0_16px_50px_rgba(34,211,238,0.16)]"
+                  className="font-pixel inline-block border-[3px] border-black px-3 py-2 text-[10px] text-black"
+                  style={{ background: COLORS[i % COLORS.length] }}
                 >
-                  <div className="absolute -right-10 -top-10 h-36 w-36 rounded-full bg-gradient-to-br from-cyan-400/20 to-fuchsia-500/20 blur-3xl opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-cyan-300/25 bg-gradient-to-br from-cyan-400/15 to-fuchsia-500/15 text-cyan-300 transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-6">
-                    <Icon size={26} />
-                  </div>
-                  <h3 className="font-display mt-5 text-xl font-bold text-white">
-                    {s.title}
-                  </h3>
-                  <p className="mt-3 text-sm leading-relaxed text-white/55">{s.desc}</p>
-                  <div className="mt-5 flex flex-wrap gap-2">
-                    {s.tags.map((t) => (
-                      <span
-                        key={t}
-                        className="font-mono2 rounded-md bg-white/5 px-2.5 py-1 text-[10px] uppercase tracking-wider text-cyan-200/80"
-                      >
-                        {t}
-                      </span>
-                    ))}
-                  </div>
+                  {String(i + 1).padStart(2, '0')}
                 </div>
-              </Reveal>
-            );
-          })}
+                <h3 className="font-pixel mt-5 text-[11px] leading-relaxed text-white md:text-xs">
+                  {s.title.toUpperCase()}
+                </h3>
+                <p className="mt-3 text-xl leading-snug text-[#9a9ab0]">{s.desc}</p>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {s.tags.map((t) => (
+                    <span key={t} className="pixel-tag px-2 py-0.5 text-lg text-[#c9c9d8]">
+                      {t}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </Reveal>
+          ))}
         </div>
       </div>
     </section>

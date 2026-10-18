@@ -1,20 +1,33 @@
 import Reveal from './Reveal';
 
-export default function SectionHeading({ eyebrow, title, desc }) {
+const COLORS = {
+  green: '#00e436',
+  blue: '#29adff',
+  yellow: '#ffec27',
+  red: '#ff004d',
+};
+
+export default function SectionHeading({ eyebrow, title, desc, color = 'green' }) {
+  const c = COLORS[color] || COLORS.green;
   return (
-    <Reveal className="mb-14 text-center md:mb-20">
-      <div className="font-mono2 mb-3 text-xs uppercase tracking-[0.35em] text-cyan-300">
-        {'//'} {eyebrow}
+    <Reveal className="mb-12 text-center md:mb-16">
+      <div
+        className="font-pixel mb-5 inline-block border-4 border-black px-4 py-2 text-[10px] md:text-xs"
+        style={{ background: c, color: '#0a0a10' }}
+      >
+        {eyebrow}
       </div>
-      <h2 className="font-display text-4xl font-extrabold uppercase tracking-tight text-white md:text-6xl">
-        {title}
-      </h2>
+      <h2 className="h-pixel text-2xl text-white md:text-4xl">{title}</h2>
       {desc && (
-        <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-white/55 md:text-base">
+        <p className="mx-auto mt-5 max-w-2xl text-xl leading-snug text-[#9a9ab0] md:text-2xl">
           {desc}
         </p>
       )}
-      <div className="mx-auto mt-6 h-[3px] w-28 rounded-full bg-gradient-to-r from-cyan-400 via-violet-500 to-fuchsia-500 shadow-[0_0_16px_rgba(34,211,238,0.6)]" />
+      <div className="mx-auto mt-6 flex justify-center gap-2">
+        {[c, c, c].map((col, i) => (
+          <div key={i} className="h-3 w-3 border-2 border-black" style={{ background: col }} />
+        ))}
+      </div>
     </Reveal>
   );
 }

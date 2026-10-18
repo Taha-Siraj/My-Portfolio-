@@ -1,67 +1,83 @@
 import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 
+const TIPS = [
+  'TIP: CLICK ANYWHERE FOR COINS',
+  'TIP: SCROLL TO EXPLORE THE WORLD',
+  'TIP: THIS PORTFOLIO RUNS ON WEBGL',
+];
+
 export default function Preloader() {
   const [count, setCount] = useState(0);
   const rootRef = useRef(null);
-  const barRef = useRef(null);
 
   useEffect(() => {
     let n = 0;
+    const tip = TIPS[Math.floor(Math.random() * TIPS.length)];
+    const tipEl = document.getElementById('load-tip');
+    if (tipEl) tipEl.textContent = tip;
     const tick = setInterval(() => {
-      n += Math.floor(Math.random() * 12) + 4;
+      n += Math.floor(Math.random() * 14) + 5;
       if (n >= 100) {
         n = 100;
         clearInterval(tick);
-        setTimeout(finish, 350);
+        setTimeout(finish, 400);
       }
       setCount(n);
-      if (barRef.current) barRef.current.style.width = `${n}%`;
-    }, 110);
+    }, 120);
 
     function finish() {
       window.__siteReady = true;
       window.dispatchEvent(new Event('site-ready'));
       gsap.to(rootRef.current, {
         yPercent: -100,
-        duration: 0.9,
-        ease: 'power4.inOut',
+        duration: 0.7,
+        ease: 'power3.inOut',
         onComplete: () => {
           if (rootRef.current) rootRef.current.style.display = 'none';
         },
       });
     }
-
     const safety = setTimeout(() => {
       clearInterval(tick);
       finish();
-    }, 5000);
-
+    }, 6000);
     return () => {
       clearInterval(tick);
       clearTimeout(safety);
     };
   }, []);
 
+  const segs = 20;
+  const filled = Math.round((count / 100) * segs);
+
   return (
     <div
       ref={rootRef}
-      className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#030014]"
+      className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#101018] px-6"
     >
-      <div className="font-mono2 text-xs tracking-[0.4em] text-cyan-300/80 uppercase mb-4">
-        Initializing dimension
+      <div className="h-pixel-sm text-center text-lg text-[#00e436] md:text-xl">
+        LOADING WORLD...
       </div>
-      <div className="font-display text-6xl md:text-8xl font-extrabold gradient-text tabular-nums">
+      <div className="font-pixel mt-6 text-4xl text-white md:text-5xl tabular-nums">
         {count}%
       </div>
-      <div className="mt-6 h-[3px] w-56 md:w-72 overflow-hidden rounded-full bg-white/10">
-        <div
-          ref={barRef}
-          className="h-full w-0 rounded-full bg-gradient-to-r from-cyan-400 via-violet-500 to-fuchsia-500"
-        />
+      <div className="mt-6 flex gap-1.5">
+        {Array.from({ length: segs }).map((_, i) => (
+          <div
+            key={i}
+            className="h-8 w-3 border-2 border-black md:w-4"
+            style={{ background: i < filled ? '#00e436' : '#1d1d2b' }}
+          />
+        ))}
       </div>
-      <div className="font-mono2 mt-4 text-[11px] tracking-[0.3em] text-white/40 uppercase">
-        Taha.Siraj // Portfolio v3.0
+      <div
+        id="load-tip"
+        className="mt-8 text-center text-xl text-[#9a9ab0]"
+        style={{ fontFamily: "'VT323', monospace" }}
+      />
+      <div className="font-pixel mt-4 text-[10px] text-[#4a4a60]">
+        TAHA.SIRAJ // PORTFOLIO v4.0
       </div>
     </div>
   );
