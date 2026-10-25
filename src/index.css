@@ -2,156 +2,144 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ================= SWEETTAPE-STYLE THEME ================= */
+/* Carter-style system: dark charcoal grain desk / light paper inversion.
+   Two families only: geometric grotesque for display, mono for utility. */
 :root {
-  --lime: #b6fe00;
-  --pine: #013900;
-  --pine-deep: #012b00;
-  --orange: #fa8005;
-  --yellow: #f7d000;
-  --coral: #ff7b5f;
-  --sky: #50cbff;
-  --royal: #2e3eac;
-  --kraft: #c89b6a;
-  --kraft-dark: #a87c4e;
-  --paper: #f5f0e6;
-  --ink: #101010;
+  --sans: 'Space Grotesk', system-ui, sans-serif;
+  --mono: 'Space Mono', ui-monospace, monospace;
 }
 
-html {
-  scroll-behavior: smooth;
+[data-theme='dark'] {
+  --bg: #131313;
+  --bg2: #1a1a1a;
+  --surface: rgba(255, 255, 255, 0.06);
+  --surface2: rgba(255, 255, 255, 0.1);
+  --line: rgba(255, 255, 255, 0.14);
+  --fg: #f2f2ee;
+  --muted: #9a9a94;
+  --paper: #edede8;
+  --paper-ink: #141414;
+  --accent: #ff5c1f;
+}
+
+[data-theme='light'] {
+  --bg: #e9e7e0;
+  --bg2: #dfdcd4;
+  --surface: rgba(0, 0, 0, 0.05);
+  --surface2: rgba(0, 0, 0, 0.09);
+  --line: rgba(0, 0, 0, 0.14);
+  --fg: #141414;
+  --muted: #6d6a63;
+  --paper: #f4f2ec;
+  --paper-ink: #141414;
+  --accent: #ff5c1f;
+}
+
+html,
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--sans);
+  overscroll-behavior: none;
 }
 
 body {
-  font-family: 'Archivo', sans-serif;
-  background: var(--lime);
-  color: var(--ink);
-  overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
+  overflow: hidden; /* app-like shell: home wheel owns the scroll */
 }
 
-.font-display {
-  font-family: 'Anton', sans-serif;
-  letter-spacing: 0.01em;
-}
-.font-hand {
-  font-family: 'Caveat', cursive;
+.mono {
+  font-family: var(--mono);
 }
 
-/* crumpled-paper grain over everything */
+::selection {
+  background: var(--accent);
+  color: #fff;
+}
+
+/* fine grain, no blend mode (perf) */
 .grain::after {
   content: '';
   position: fixed;
   inset: 0;
-  z-index: 90;
+  z-index: 80;
   pointer-events: none;
-  opacity: 0.1;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='280' height='280'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.055 0.065' numOctaves='4' seed='7'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='280' height='280' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.05;
 }
 
-::selection {
-  background: var(--pine);
-  color: var(--lime);
-}
-
-::-webkit-scrollbar {
-  width: 12px;
-}
-::-webkit-scrollbar-track {
-  background: var(--pine-deep);
-}
-::-webkit-scrollbar-thumb {
-  background: var(--lime);
-  border: 3px solid var(--pine-deep);
-  border-radius: 8px;
-}
-
-/* ================= stickers ================= */
-.sticker {
-  background: #fff;
-  border: 5px solid #fff;
-  box-shadow: 0 10px 0 rgba(0, 0, 0, 0.22);
-  border-radius: 1.25rem;
-}
-.sticker-dark {
-  background: var(--pine);
-  color: #fff;
-  border: 5px solid #fff;
-  box-shadow: 0 10px 0 rgba(0, 0, 0, 0.25);
-}
-.sticker-pop {
-  box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.85);
-  border: 4px solid var(--ink);
-}
-
-.badge-circle {
-  border-radius: 9999px;
-  border: 4px dashed rgba(255, 255, 255, 0.9);
-  outline: 4px solid var(--ink);
-}
-
-/* masking tape strip */
-.tape {
-  position: absolute;
-  width: 130px;
-  height: 38px;
-  background: rgba(247, 208, 0, 0.75);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.18);
-  clip-path: polygon(
-    2% 0, 98% 4%, 100% 92%, 96% 100%, 3% 96%, 0 8%
+/* faint horizontal banding like photocopied paper */
+.banding::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 79;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 3px,
+    rgba(128, 128, 128, 0.025) 3px,
+    rgba(128, 128, 128, 0.025) 4px
   );
-  z-index: 5;
-}
-.tape-white {
-  background: rgba(255, 255, 255, 0.65);
-}
-.tape-green {
-  background: rgba(182, 254, 0, 0.7);
 }
 
-/* chunky buttons */
-.btn-chunk {
-  font-family: 'Anton', sans-serif;
-  letter-spacing: 0.04em;
-  border: 4px solid var(--ink);
-  box-shadow: 6px 6px 0 var(--ink);
-  transition: transform 0.12s ease, box-shadow 0.12s ease;
-}
-.btn-chunk:hover {
-  transform: translate(2px, 2px);
-  box-shadow: 4px 4px 0 var(--ink);
-}
-.btn-chunk:active {
-  transform: translate(6px, 6px);
-  box-shadow: 0 0 0 var(--ink);
+.pill {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  backdrop-filter: blur(12px);
 }
 
-/* wavy ribbon marquee */
-@keyframes marquee-x {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
-}
-.animate-marquee {
-  animation: marquee-x 22s linear infinite;
-}
-.animate-marquee-fast {
-  animation: marquee-x 14s linear infinite;
+.tag {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  color: var(--muted);
+  white-space: nowrap;
 }
 
+/* paper card */
+.paper {
+  background: var(--paper);
+  color: var(--paper-ink);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+}
+
+/* perforated ticket edge */
+.perf {
+  -webkit-mask-image: radial-gradient(circle 7px at 0 50%, transparent 98%, #000 100%);
+  mask-image: radial-gradient(circle 7px at 0 50%, transparent 98%, #000 100%);
+}
+
+/* barcode */
+.barcode {
+  background: repeating-linear-gradient(
+    to right,
+    #141414 0 2px,
+    transparent 2px 4px,
+    #141414 4px 5px,
+    transparent 5px 9px,
+    #141414 9px 12px,
+    transparent 12px 14px
+  );
+}
+
+/* spin for the turntable disc */
 @keyframes spin-slow {
   to {
     transform: rotate(360deg);
   }
 }
-.animate-spin-slow {
-  animation: spin-slow 14s linear infinite;
+.animate-spin-slower {
+  animation: spin-slow 7s linear infinite;
 }
 
-@keyframes wobble {
+/* swing for the studio badge (fallback; drag uses GSAP elastic) */
+@keyframes sway {
   0%,
   100% {
     transform: rotate(-3deg);
@@ -160,69 +148,16 @@ body {
     transform: rotate(3deg);
   }
 }
-.animate-wobble {
-  animation: wobble 3.2s ease-in-out infinite;
+.animate-sway {
+  animation: sway 5s ease-in-out infinite;
+  transform-origin: top center;
 }
 
-@keyframes float-y {
-  0%,
-  100% {
-    transform: translateY(0) rotate(var(--rot, 0deg));
-  }
-  50% {
-    transform: translateY(-16px) rotate(var(--rot, 0deg));
-  }
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
 }
-.animate-float {
-  animation: float-y 5s ease-in-out infinite;
-}
-
-/* giant outline text */
-.text-outline {
-  -webkit-text-stroke: 3px var(--pine);
-  color: transparent;
-}
-.text-outline-lime {
-  -webkit-text-stroke: 3px var(--lime);
-  color: transparent;
-}
-
-/* underline tape swipe for headings */
-.tape-underline {
-  position: relative;
-  display: inline-block;
-  z-index: 1;
-}
-.tape-underline::after {
-  content: '';
-  position: absolute;
-  left: -4%;
-  right: -4%;
-  bottom: 6%;
-  height: 34%;
-  background: var(--yellow);
-  z-index: -1;
-  transform: rotate(-1.5deg);
-}
-
-/* paper card */
-.paper-card {
-  background: var(--paper);
-  border: 4px solid var(--ink);
-  box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.85);
-}
-
-/* kraft panel */
-.kraft {
-  background: var(--kraft);
-  border: 4px solid var(--ink);
-}
-
-/* hide scrollbars for horizontal strips */
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-.no-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+::-webkit-scrollbar-thumb {
+  background: var(--surface2);
+  border-radius: 99px;
 }
