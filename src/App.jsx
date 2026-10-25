@@ -163,7 +163,7 @@ export default function App() {
   const toggleTheme = () => setTheme((t) => (t === 'dark' ? 'light' : 'dark'));
 
   return (
-    <div data-theme={theme} className="grain banding relative h-[100dvh] w-full overflow-hidden bg-[var(--bg)] text-[var(--fg)]">
+    <div data-theme={theme} className="grain relative h-[100dvh] w-full overflow-hidden bg-[var(--bg)] text-[var(--fg)]">
       {loading && <Preloader onDone={() => setLoading(false)} />}
       <Telemetry />
       <Header

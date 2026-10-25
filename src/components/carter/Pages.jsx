@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ArrowUpRight, Download, Disc3 } from 'lucide-react';
-import { profile, skills, experience, socials, contactInfo } from '../../data/content';
+import { profile, skills, experience, education, services, socials, contactInfo } from '../../data/content';
 
 /* ---------------- ABOUT : desk collage ---------------- */
 export function AboutPage({ go }) {
@@ -103,6 +103,41 @@ export function AboutPage({ go }) {
             <button key={p} onClick={() => go(p)} className="pill mono rotate-90 whitespace-nowrap rounded-full px-4 py-1.5 text-[10px] tracking-[0.25em] text-[var(--muted)] hover:text-[var(--fg)]" style={{ transformOrigin: 'left center', marginBottom: 56 }}>
               {label} →
             </button>
+          ))}
+        </div>
+      </div>
+
+      {/* journey + services (the sections that live under the desk) */}
+      <div className="mx-auto max-w-6xl px-5 pb-16">
+        <p className="mono text-[11px] tracking-[0.25em] text-[var(--muted)]">FILE :: JOURNEY</p>
+        <h3 className="mt-2 text-4xl font-bold tracking-tight">EXPERIENCE + EDUCATION</h3>
+        <div className="mt-6 grid gap-4 md:grid-cols-2">
+          {[...experience.map((e) => ({ ...e, kind: 'WORK' })), ...education.map((e) => ({ ...e, kind: 'STUDY', company: e.institution, desc: e.desc }))].map((e) => (
+            <div key={e.title} className="pill rounded-2xl p-5">
+              <div className="flex items-center justify-between gap-3">
+                <span className="tag">{e.kind}</span>
+                <span className="mono text-[10px] tracking-widest text-[var(--muted)]">{e.period.toUpperCase()}</span>
+              </div>
+              <p className="mt-3 text-lg font-bold leading-tight">{e.title}</p>
+              <p className="text-sm text-[var(--muted)]">{e.company}</p>
+              <p className="mt-2 text-sm leading-relaxed text-[var(--muted)]">{e.desc}</p>
+            </div>
+          ))}
+        </div>
+
+        <p className="mono mt-12 text-[11px] tracking-[0.25em] text-[var(--muted)]">FILE :: SERVICES</p>
+        <h3 className="mt-2 text-4xl font-bold tracking-tight">WHAT I DO</h3>
+        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {services.map((s) => (
+            <div key={s.title} className="pill rounded-2xl p-5">
+              <p className="text-lg font-bold leading-tight">{s.title}</p>
+              <p className="mt-2 text-sm leading-relaxed text-[var(--muted)]">{s.desc}</p>
+              <div className="mt-3 flex flex-wrap gap-1.5">
+                {s.tags.map((t) => (
+                  <span key={t} className="tag">{t}</span>
+                ))}
+              </div>
+            </div>
           ))}
         </div>
       </div>

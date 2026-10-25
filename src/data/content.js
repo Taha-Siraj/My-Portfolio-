@@ -174,6 +174,60 @@ export const projects = [
     githubLink: 'https://github.com/Taha-Siraj/Sidcup-Animated-websites-',
     image: '/animated.png',
   },
+  {
+    title: 'ERP Medical',
+    description:
+      'Medical store ERP — stock levels, billing and inventory managed from one dashboard, built for daily pharmacy operations.',
+    tech: ['TypeScript', 'React.js', 'Dashboard'],
+    liveLink: 'https://erp-medical.vercel.app/',
+    githubLink: 'https://github.com/Taha-Siraj/erp-medical',
+    image: null,
+  },
+  {
+    title: 'Clinical Consultation Platform',
+    description:
+      'Online consultation platform connecting patients with clinicians — bookings, profiles and a clean session flow.',
+    tech: ['TypeScript', 'React.js', 'Web App'],
+    liveLink: 'https://clinical-consultation-platform.vercel.app/',
+    githubLink: 'https://github.com/Taha-Siraj/Clinical-Consultation-Platform',
+    image: null,
+  },
+  {
+    title: 'Hazen Admin Panel',
+    description:
+      'Business admin panel — dashboards, data tables and management views for running day-to-day operations from one place.',
+    tech: ['TypeScript', 'React.js', 'Dashboard'],
+    liveLink: 'https://hazen-admin-panel.vercel.app/',
+    githubLink: 'https://github.com/Taha-Siraj/hazen-admin-panel',
+    image: null,
+  },
+  {
+    title: 'DentalFlow',
+    description:
+      'Dental clinic web app — appointments and patient flow for a modern practice, with a calm, booking-first interface.',
+    tech: ['JavaScript', 'React.js', 'Web App'],
+    liveLink: 'https://dentalflow-47kn.vercel.app/',
+    githubLink: 'https://github.com/Taha-Siraj/dentalflow',
+    image: null,
+  },
+  {
+    title: 'AI Healthcare',
+    description:
+      'AI-powered healthcare web app — smart health tools wrapped in a clean, patient-friendly interface.',
+    tech: ['JavaScript', 'React.js', 'AI'],
+    liveLink: 'https://ai-helthcare-one.vercel.app/',
+    githubLink: 'https://github.com/Taha-Siraj/ai-helthcare',
+    image: null,
+  },
+  {
+    title: 'Lead Mailer Sender',
+    description:
+      'Lead outreach tool — compose and send mail campaigns to lead lists, built for fast, repeatable follow-ups.',
+    tech: ['JavaScript', 'React.js', 'Email'],
+    liveLink: 'https://lead-mailer-sender.vercel.app/',
+    githubLink: 'https://github.com/Taha-Siraj/lead-mailer-sender',
+    image: null,
+  },
 ];
 
 export const services = [
